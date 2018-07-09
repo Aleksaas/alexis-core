@@ -4,7 +4,6 @@ using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
 using System.Linq;
 using System.Threading.Tasks;
-using static AlexisCorePro.Business.Ships.ShipScopes;
 
 namespace AlexisCorePro.Business.Ships
 {

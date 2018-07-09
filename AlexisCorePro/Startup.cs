@@ -25,13 +25,26 @@ namespace AlexisCorePro
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
+
             services.AddMvc(opt =>
             {
                 opt.Filters.Add(typeof(GlobalExceptionFilter));
                 opt.Filters.Add(typeof(LanguageFilter));
             })
             .AddJsonOptions(options => { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); })
-            .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });
+            .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); cfg.ImplicitlyValidateChildProperties = true; });
 
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
@@ -46,6 +59,8 @@ namespace AlexisCorePro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("AllowAll");
+
             app.UseMvc();
         }
     }

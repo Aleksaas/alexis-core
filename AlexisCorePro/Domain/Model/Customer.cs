@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain.Model
 {
-    public class Customer
+    public class Customer : BaseModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public int? CompanyId { get; set; }

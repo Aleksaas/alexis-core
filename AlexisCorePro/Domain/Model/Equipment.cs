@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace AlexisCorePro.Domain.Model
 {
-    public class Company : BaseModel
+    public class Equipment : BaseModel
     {
         public string Name { get; set; }
-
-        public ICollection<Customer> Customers { get; set; }
     }
 }

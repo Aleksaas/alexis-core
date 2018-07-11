@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace AlexisCorePro.Domain.Model
 {
-    public class Ship
+    public class Ship : BaseModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public int Imd { get; set; }

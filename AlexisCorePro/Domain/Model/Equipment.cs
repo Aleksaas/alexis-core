@@ -8,5 +8,9 @@ namespace AlexisCorePro.Domain.Model
     public class Equipment : BaseModel
     {
         public string Name { get; set; }
+
+        public int Criticality { get; set; }
+
+        public virtual Ship Ship { get; set; }
     }
 }

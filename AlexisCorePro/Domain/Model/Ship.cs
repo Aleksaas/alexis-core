@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DelegateDecompiler;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,5 +17,12 @@ namespace AlexisCorePro.Domain.Model
 
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
+
+        public virtual ICollection<Equipment> Equipments { get; set; }
+
+        [NotMapped]
+        [Computed]
+        public virtual int CriticalEquipmentsNum =>
+            Equipments.Where(e => e.Criticality == 2).Count();
     }
 }

@@ -25,6 +25,8 @@ namespace AlexisCorePro.Business.Ships
 
             public int Mmsi { get; set; }
 
+            public int CriticalEquipmentsNum { get; set; }
+
             public CustomerBasic Customer { get; set; }
         }
 

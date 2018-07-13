@@ -9,6 +9,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
             this IServiceCollection services)
         {
             services.AddTransient<DatabaseContext, DatabaseContext>();
+            services.AddTransient<DatabaseInitializer, DatabaseInitializer>();
 
             return services;
         }

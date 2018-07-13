@@ -1,9 +1,8 @@
-﻿using DelegateDecompiler;
-using System;
+﻿using AlexisCorePro.Domain.Enums;
+using DelegateDecompiler;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AlexisCorePro.Domain.Model
 {
@@ -23,6 +22,6 @@ namespace AlexisCorePro.Domain.Model
         [NotMapped]
         [Computed]
         public virtual int CriticalEquipmentsNum =>
-            Equipments.Where(e => e.Criticality == 2).Count();
+            Equipments.Where(e => e.Criticality == EquipmentCriticality.Critical).Count();
     }
 }

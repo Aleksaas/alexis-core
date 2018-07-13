@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Business\Customers\Commands\" />
-    <Folder Include="Domain\Scripts\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -35,6 +34,12 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Domain\Scripts\InsertPostnumbers.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

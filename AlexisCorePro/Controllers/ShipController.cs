@@ -10,7 +10,6 @@ using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static AlexisCorePro.Business.Ships.ShipScopes;
 
 namespace AlexisCorePro.Controllers
 {

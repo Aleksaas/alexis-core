@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Customers;
 using AlexisCorePro.Domain;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static AlexisCorePro.Business.Customers.CustomerScopes;
 
 namespace AlexisCorePro.Controllers
 {

@@ -20,7 +20,7 @@ namespace AlexisCorePro
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public static IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -49,7 +49,7 @@ namespace AlexisCorePro
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AlexisPro")));
+                options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
             services.RegisterServices();
 

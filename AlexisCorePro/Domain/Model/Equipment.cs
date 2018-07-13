@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AlexisCorePro.Domain.Enums;
 
 namespace AlexisCorePro.Domain.Model
 {
@@ -9,7 +6,7 @@ namespace AlexisCorePro.Domain.Model
     {
         public string Name { get; set; }
 
-        public int Criticality { get; set; }
+        public EquipmentCriticality Criticality { get; set; }
 
         public virtual Ship Ship { get; set; }
     }

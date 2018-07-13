@@ -9,7 +9,27 @@ namespace AlexisCorePro.Domain
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
+            var entities = ChangeTracker
+                .Entries()
+                .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added && x.Entity != null && typeof(BaseModel).IsAssignableFrom(x.Entity.GetType()))
+                .ToList();
 
+            var currentTime = DateTime.Now;
+
+            foreach (var entity in entities)
+            {
+                var entityBase = entity.Entity as BaseModel;
+
+                if (entity.State == EntityState.Added)
+                    entityBase.CreatedAt = currentTime;
+
+                entityBase.UpdateAt = currentTime;
+            }
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // optionsBuilder.UseSqlServer(Startup.Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure());
         }
 
         public DatabaseContext()
@@ -36,7 +56,9 @@ namespace AlexisCorePro.Domain
 
         public DbSet<Customer> Customers { get; set; }
 
-        public DbSet<Customer> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; }
+
+        public DbSet<Postnumber> Postnumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

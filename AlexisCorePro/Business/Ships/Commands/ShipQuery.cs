@@ -1,13 +1,13 @@
 ﻿using AlexisCorePro.Business.Common.Model.Search;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AlexisCorePro.Business.Ships.Commands
 {
     public class ShipQuery : BaseQuery
     {
-        public int? Id { get; set; }
+        public string Name { get; set; }
+
+        public int? Imd { get; set; }
+
+        public int? Mmsi { get; set; }
     }
 }

@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace AlexisCorePro.Domain
 {
+    /// <summary>
+    /// Populates db with data that must exist for app to work properly
+    /// </summary>
     public class DatabaseInitializer
     {
         private DatabaseContext ctx;

@@ -15,6 +15,7 @@ namespace AlexisCorePro.Domain.Model
         public int Mmsi { get; set; }
 
         public int CustomerId { get; set; }
+
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<Equipment> Equipments { get; set; }
@@ -23,5 +24,10 @@ namespace AlexisCorePro.Domain.Model
         [Computed]
         public virtual int CriticalEquipmentsNum =>
             Equipments.Where(e => e.Criticality == EquipmentCriticality.Critical).Count();
+
+        [NotMapped]
+        [Computed]
+        public virtual Company Company =>
+            Customer.Company;
     }
 }

@@ -26,19 +26,19 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
-        public async Task<Response<SearchResponse<ShipDto>>> Search([FromBody]SearchRequest<ShipQuery> request)
+        public async Task<Response<SearchResponse<ShipDetails>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
-            var result = await shipService.Search<ShipQuery, ShipDto>(request);
+            var result = await shipService.Search<ShipQuery, ShipDetails>(request);
 
             return OkResponse(result);
         }
 
         // GET api/ships/5
         [HttpGet("{id}")]
-        public async Task<Response<ShipDto>> Get(int id)
+        public async Task<Response<ShipDetails>> Get(int id)
         {
             var result = await ctx.Ships
-                .ProjectTo<ShipDto>()
+                .ProjectTo<ShipDetails>()
                 .DecompileAsync()
                 .FirstOrDefaultAsync(s => s.Id == id);
 
@@ -47,7 +47,7 @@ namespace AlexisCorePro.Controllers
 
         // POST api/ships
         [HttpPost]
-        public async Task<Response<ShipDto>> Post([FromBody]ShipCommand cmd)
+        public async Task<Response<ShipDetails>> Post([FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Create(cmd);
 
@@ -56,7 +56,7 @@ namespace AlexisCorePro.Controllers
 
         // PUT api/ships/5
         [HttpPut("{id}")]
-        public async Task<Response<ShipDto>> Put(int id, [FromBody]ShipCommand cmd)
+        public async Task<Response<ShipDetails>> Put(int id, [FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Update(id, cmd);
 
@@ -75,11 +75,11 @@ namespace AlexisCorePro.Controllers
         // GET api/customers/1/ships
         [Route("/api/customers/{id}/ships")]
         [HttpGet]
-        public async Task<IEnumerable<ShipDto>> GetShipsForCustomer(int id)
+        public async Task<IEnumerable<ShipDetails>> GetShipsForCustomer(int id)
         {
             return await ctx.Ships
                 .Where(s => s.CustomerId == id)
-                .ProjectTo<ShipDto>().DecompileAsync().ToListAsync();
+                .ProjectTo<ShipDetails>().DecompileAsync().ToListAsync();
         }
     }
 }

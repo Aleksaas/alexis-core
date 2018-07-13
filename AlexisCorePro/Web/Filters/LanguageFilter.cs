@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using AlexisCorePro.Business.Common.Model;
+using AlexisCorePro.Domain;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace AlexisCorePro.Infrastructure.Filters
@@ -15,7 +15,7 @@ namespace AlexisCorePro.Infrastructure.Filters
         {
             var hasLanguage = context.HttpContext.Request.Headers.TryGetValue("Accept-Language", out var acceptLanguage);
 
-            CultureInfo.CurrentUICulture = hasLanguage ? new CultureInfo(acceptLanguage) : new CultureInfo(Constants.DefaultLanguage);
+            CultureInfo.CurrentUICulture = hasLanguage ? new CultureInfo(acceptLanguage) : new CultureInfo(Default.Language);
         }
     }
 

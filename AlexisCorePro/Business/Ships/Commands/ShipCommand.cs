@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Business.Common.Commands;
+using AlexisCorePro.Domain;
 using FluentValidation;
 using System;
 
@@ -21,7 +22,7 @@ namespace AlexisCorePro.Business.Ships.Commands
     {
         public ShipCommandValidator()
         {
-            RuleFor(cmd => cmd.Name).NotEmpty().MaximumLength(100);
+            RuleFor(cmd => cmd.Name).NotEmpty().MaximumLength(Default.TextFieldLength);
             RuleFor(cmd => cmd.Date).GreaterThan(DateTime.Today);
             RuleFor(cmd => cmd.Imd).NotEmpty();
             RuleFor(cmd => cmd.Mmsi).NotEmpty();

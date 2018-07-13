@@ -2,6 +2,6 @@
 {
     public class BaseQuery
     {
-
+        public int? Id { get; set; }
     }
 }

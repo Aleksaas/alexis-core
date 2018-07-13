@@ -23,6 +23,21 @@ namespace AlexisCorePro.Business.Ships
                 model = model.Where(e => e.Id == shipQuery.Id);
             }
 
+            if (!string.IsNullOrEmpty(shipQuery.Name))
+            {
+                model = model.Where(e => e.Name == shipQuery.Name);
+            }
+
+            if (shipQuery.Imd != null)
+            {
+                model = model.Where(e => e.Imd == shipQuery.Imd);
+            }
+
+            if (shipQuery.Mmsi != null)
+            {
+                model = model.Where(e => e.Mmsi == shipQuery.Mmsi);
+            }
+
             return model;
         }
 

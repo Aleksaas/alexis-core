@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Domain\20180617175341_Initial.cs" />
     <Compile Remove="Domain\20180617175341_Initial.Designer.cs" />
     <Compile Remove="Domain\Migrations\20180617175425_Initial.cs" />
@@ -17,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Business\Customers\Commands\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

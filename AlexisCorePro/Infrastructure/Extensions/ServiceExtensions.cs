@@ -10,6 +10,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
         {
             services.AddTransient<DatabaseContext, DatabaseContext>();
             services.AddTransient<DatabaseInitializer, DatabaseInitializer>();
+            services.AddTransient<DatabaseSeed, DatabaseSeed>();
 
             return services;
         }

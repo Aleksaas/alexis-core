@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using AlexisCorePro.Domain;
 using AlexisCorePro.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 

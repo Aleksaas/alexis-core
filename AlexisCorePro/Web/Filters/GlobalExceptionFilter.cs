@@ -37,10 +37,9 @@ namespace AlexisCorePro.Infrastructure.Filters
             }
             else
             {
-                string errorMessage = Startup.HostingEnvironment.IsDevelopment() ? context.Exception.Message : string.Empty;
-                
                 logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred.");
 
+                string errorMessage = Startup.HostingEnvironment.IsDevelopment() ? context.Exception.Message : string.Empty;
                 content = JsonConvert
                     .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong. " + errorMessage)), new JsonSerializerSettings
                     {

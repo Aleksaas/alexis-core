@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Common;
 using AlexisCorePro.Business.Common.Model;
 using AlexisCorePro.Business.Common.Model.Search;
 using AlexisCorePro.Business.Ships;
@@ -17,10 +18,12 @@ namespace AlexisCorePro.Controllers
     public class ShipController : BaseController
     {
         private ShipService shipService;
+        private EnumsService enumsService;
 
-        public ShipController(DatabaseContext ctx) : base(ctx)
+        public ShipController(DatabaseContext ctx, ShipService shipService, EnumsService enumsService) : base(ctx)
         {
-            shipService = new ShipService(ctx);
+            this.shipService = shipService;
+            this.enumsService = enumsService;
         }
 
         // POST api/ships/search
@@ -70,6 +73,18 @@ namespace AlexisCorePro.Controllers
             await shipService.Delete(id);
 
             return OkResponse(true);
+        }
+
+        // GET api/ships-metadata
+        [Route("/api/ships-metadata")]
+        public dynamic GetMetadata()
+        {
+            var result = new
+            {
+                AisVesselTypes = enumsService.GetAisVesselTypes()
+            };
+
+            return OkResponse(result);
         }
 
         // GET api/customers/1/ships

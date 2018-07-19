@@ -30,7 +30,8 @@ namespace AlexisCorePro.Business.Ships.Commands
             RuleFor(cmd => cmd).Must(HaveUniqueName).WithMessage("Name must be unique.")
                 .Must(MustNotExceedMaxCustomerShipNum).WithMessage("Max number of ships exceeded.");
 
-            // If first one is not true, then chained one will not be executed, like in the first and last example here
+            // If first one is not true, then chained one will not be executed, like in the first and last example here because of
+            // ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure; in Startup.cs
         }
 
         private bool HaveUniqueName(ShipCommand cmd)

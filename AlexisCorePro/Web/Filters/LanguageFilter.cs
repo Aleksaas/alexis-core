@@ -15,7 +15,14 @@ namespace AlexisCorePro.Infrastructure.Filters
         {
             var hasLanguage = context.HttpContext.Request.Headers.TryGetValue("Accept-Language", out var acceptLanguage);
 
-            CultureInfo.CurrentUICulture = hasLanguage ? new CultureInfo(acceptLanguage) : new CultureInfo(Default.Language);
+            try
+            {
+                CultureInfo.CurrentUICulture = hasLanguage ? new CultureInfo(acceptLanguage) : new CultureInfo(Default.Language);
+            }
+            catch (System.Exception ex)
+            {
+                CultureInfo.CurrentUICulture = new CultureInfo(Default.Language);
+            }
         }
     }
 

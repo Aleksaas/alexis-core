@@ -5,7 +5,7 @@ namespace AlexisCorePro.Business.Common.Model
     public class Response<T>
     {
         public bool IsSuccess =>
-            Errors == null || Errors.Count == 0;
+            Data != null && (Errors == null || Errors.Count == 0);
 
         public T Data { get; set; }
 

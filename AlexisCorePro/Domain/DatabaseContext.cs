@@ -38,6 +38,8 @@ namespace AlexisCorePro.Domain
 
         public DbSet<Company> Companies { get; set; }
 
+        public DbSet<Equipment> Equipments { get; set; }
+
         public DbSet<Postnumber> Postnumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

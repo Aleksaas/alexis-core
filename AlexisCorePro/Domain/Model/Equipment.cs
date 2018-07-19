@@ -1,4 +1,8 @@
 ﻿using AlexisCorePro.Domain.Enums;
+using AlexisCorePro.Infrastructure.Helpers;
+using DelegateDecompiler;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain.Model
 {
@@ -21,5 +25,23 @@ namespace AlexisCorePro.Domain.Model
         public int EquipmentTypeId { get; set; }
 
         public virtual Ship Ship { get; set; }
+
+        [Computed]
+        public virtual bool IsUpdatedInMonth(DateTime date)
+        {
+            var range = DateHelper.GetFirstAndLastDay(date);
+            return UpdateAt <= range.DateTo && UpdateAt >= range.DateFrom;
+        }
+
+        [Computed]
+        [NotMapped]
+        public virtual bool IsCreatedInMonth
+        {
+            get
+            {
+                var range = DateHelper.GetFirstAndLastDay(DateTime.Now);
+                return CreatedAt <= range.DateTo && CreatedAt >= range.DateFrom;
+            }
+        }
     }
 }

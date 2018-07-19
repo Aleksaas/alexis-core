@@ -1,5 +1,7 @@
 ﻿using AlexisCorePro.Domain.Enums;
+using AlexisCorePro.Infrastructure.Helpers;
 using DelegateDecompiler;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -29,5 +31,21 @@ namespace AlexisCorePro.Domain.Model
         [Computed]
         public virtual Company Company =>
             Customer.Company;
+
+        [NotMapped]
+        [Computed]
+        public virtual int NewEquipmentNum
+        {
+            get
+            {
+                return Equipments.Where(e => e.IsCreatedInMonth).Count();
+            }
+        }
+
+        [Computed]
+        public virtual int UpdatedEquipmentNum(DateTime date)
+        {
+            return Equipments.Where(e => e.IsUpdatedInMonth(date)).Count();
+        }
     }
 }

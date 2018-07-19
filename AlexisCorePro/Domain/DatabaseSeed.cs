@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Domain.Model;
+using System;
 
 namespace AlexisCorePro.Domain
 {
@@ -34,6 +35,12 @@ namespace AlexisCorePro.Domain
                 Imd = 10,
                 Customer = customer1
             }).Entity;
+
+            var equipment1 = ctx.Equipments.Add(new Equipment
+            {
+                Name = "Equipment-#1",
+                Ship = ship1
+            });
 
             ctx.SaveChanges();
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AlexisCorePro.Business.Common;
@@ -95,6 +96,21 @@ namespace AlexisCorePro.Controllers
             return await ctx.Ships
                 .Where(s => s.CustomerId == id)
                 .ProjectTo<ShipDetails>().DecompileAsync().ToListAsync();
+        }
+
+        // GET api/ships/reports/month
+        [Route("/api/ships/reports/month")]
+        [HttpGet]
+        public async Task<IEnumerable<ShipMonthReport>> GetMonthReport(DateTime date)
+        {
+            //return await ctx.Ships
+            //    .ProjectTo<ShipMonthReport>().DecompileAsync().ToListAsync();
+
+            return await ctx.Ships
+                .ToShipMonthReport(date)
+                .DecompileAsync().ToListAsync();
+
+            //return await ctx.ToShipMonthReport(date).DecompileAsync().ToListAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Business.Common.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -36,11 +37,12 @@ namespace AlexisCorePro.Infrastructure.Filters
             }
             else
             {
-                // TO DO: check if (env.IsDevelopment())
-                logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred. " + context.Exception.Message);
+                string errorMessage = Startup.HostingEnvironment.IsDevelopment() ? context.Exception.Message : string.Empty;
+                
+                logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred.");
 
                 content = JsonConvert
-                    .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong. " + context.Exception.Message)), new JsonSerializerSettings
+                    .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong. " + errorMessage)), new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     });

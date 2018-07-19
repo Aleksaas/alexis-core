@@ -40,7 +40,7 @@ namespace AlexisCorePro.Controllers
             var result = await ctx.Ships
                 .ProjectTo<ShipDetails>()
                 .DecompileAsync()
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .FirstAsync(s => s.Id == id);
 
             return OkResponse(result);
         }

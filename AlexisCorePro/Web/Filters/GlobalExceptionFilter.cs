@@ -36,10 +36,11 @@ namespace AlexisCorePro.Infrastructure.Filters
             }
             else
             {
-                logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred.");
+                // TO DO: check if (env.IsDevelopment())
+                logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred. " + context.Exception.Message);
 
                 content = JsonConvert
-                    .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong.")), new JsonSerializerSettings
+                    .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong. " + context.Exception.Message)), new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     });

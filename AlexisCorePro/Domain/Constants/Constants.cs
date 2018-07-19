@@ -9,4 +9,11 @@
 
         public const string Language = "en";
     }
+
+    public static class CultureTwoLetterISONames
+    {
+        public const string English = "en";
+
+        public const string German = "de";
+    }
 }

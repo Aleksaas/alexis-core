@@ -1,39 +1,28 @@
 ﻿using AlexisCorePro.Business.Common.Model.Search;
 using AlexisCorePro.Domain;
-using AutoMapper.QueryableExtensions;
-using DelegateDecompiler.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AlexisCorePro.Business.Common
 {
-    public abstract class BaseService<K> where K : class
+    public abstract class BaseService<TModel> where TModel : class
     {
-        protected DbSet<K> model;
+        protected DbSet<TModel> model;
         protected DatabaseContext ctx;
 
-        protected BaseService(DbSet<K> model, DatabaseContext ctx)
+        protected BaseService(DbSet<TModel> model, DatabaseContext ctx)
         {
             this.model = model;
             this.ctx = ctx;
         }
 
-        public async Task<SearchResponse<U>> Search<T, U>(SearchRequest<T> request) where T : BaseQuery
+        public IQueryable<TModel> Search<TQuery>(SearchRequest<TQuery> request) where TQuery : BaseQuery
         {
-            var query = model.Skip(request.PageNumber - 1).Take(request.PageSize);
+            var query = AddSearchFilter(model, request.Query);
 
-            return new SearchResponse<U>
-            {
-                PageSize = request.PageSize,
-                CurrentPage = request.PageNumber - 1,
-                Result = await AddSearchFilter(query, request.Query)
-                    .ProjectTo<U>()
-                    .DecompileAsync()
-                    .ToListAsync()
-            };
+            return query;
         }
 
-        public abstract IQueryable<K> AddSearchFilter<U>(IQueryable<K> model, U query);
+        public abstract IQueryable<TModel> AddSearchFilter<TQuery>(IQueryable<TModel> model, TQuery query);
     }
 }

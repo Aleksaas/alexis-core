@@ -36,7 +36,7 @@ namespace AlexisCorePro.Business.Ships
         public int UpdatedEquipmentNum { get; set; }
     }
 
-    public static class ShipMonthReportQuery
+    public static class ShipMonthReportExtensions
     {
         public static IQueryable<ShipMonthReport> ToShipMonthReport(this IQueryable<Ship> query, DateTime date)
         {

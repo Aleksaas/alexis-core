@@ -10,7 +10,7 @@ namespace AlexisCorePro.Business.Common.Model.Search
         public int CurrentPage { get; set; }
 
         public int TotalPages =>
-            (int) Math.Ceiling((decimal) (EntriesCount / PageSize));
+            (int) Math.Ceiling((double)EntriesCount / (double)PageSize);
 
         public List<T> Result { get; set; }
     }

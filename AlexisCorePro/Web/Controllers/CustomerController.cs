@@ -19,9 +19,9 @@ namespace AlexisCorePro.Controllers
 
         // GET api/customers
         [HttpGet]
-        public async Task<IEnumerable<CustomerDto>> Get()
+        public async Task<IEnumerable<CustomerDetails>> Get()
         {
-            return await ctx.Customers.ProjectTo<CustomerDto>().DecompileAsync().ToListAsync();
+            return await ctx.Customers.ProjectTo<CustomerDetails>().DecompileAsync().ToListAsync();
         }
     }
 }

@@ -80,11 +80,11 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
-        public async Task<Response<SearchResponse<ShipDetails>>> Search([FromBody]SearchRequest<ShipQuery> request)
+        public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService
                 .Search(request)
-                .ProjectTo<ShipDetails>()
+                .ProjectTo<ShipListItem>()
                 .ToPaginated(request.PageNumber, request.PageSize);
 
             return OkResponse(result);
@@ -95,17 +95,12 @@ namespace AlexisCorePro.Controllers
         [HttpPost]
         public async Task<Response<SearchResponse<ShipMonthReport>>> SearchMonthReport([FromBody]SearchRequest<ShipQuery> request)
         {
-            //return await ctx.Ships
-            //    .ProjectTo<ShipMonthReport>().DecompileAsync().ToListAsync();
-
             var result = await shipService
                 .Search(request)
                 .ToShipMonthReport(request.Query.MonthReportDate)
                 .ToPaginated(request.PageNumber, request.PageSize);
 
             return OkResponse(result);
-
-            //return await ctx.ToShipMonthReport(date).DecompileAsync().ToListAsync();
         }
 
         // GET api/customers/1/ships

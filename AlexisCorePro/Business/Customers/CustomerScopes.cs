@@ -9,22 +9,16 @@ namespace AlexisCorePro.Business.Customers
         public string Name { get; set; }
     }
 
-    public class CustomerDto
+    public class CustomerDetails : CustomerBasic
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public CompanyBasic Company { get; set; }
 
         public int ShipNumber { get; set; }
     }
 
-    public class CustomersSearchItem
+    public class CustomersSearchItem : CustomerBasic
     {
-        public int Id { get; set; }
 
-        public string Name { get; set; }
     }
 
 }

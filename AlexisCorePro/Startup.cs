@@ -15,9 +15,10 @@ namespace AlexisCorePro
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
         public static IConfiguration Configuration { get; set; }
@@ -46,12 +47,22 @@ namespace AlexisCorePro
                 opt.Filters.Add(typeof(LanguageFilter));
             })
             .AddJsonOptions(options => { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); })
-            .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); cfg.ImplicitlyValidateChildProperties = true; });
+            .AddFluentValidation(cfg => {
+                cfg.RegisterValidatorsFromAssemblyContaining<Startup>();
+                cfg.ImplicitlyValidateChildProperties = true;
+            });
 
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
+            if (HostingEnvironment.IsDevelopment())
+            {
+                services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase("AlexisProInMemoryDb"));
+            }
+            else
+            {
+                services.AddDbContext<DatabaseContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
+            }
 
             services.RegisterServices();
 
@@ -61,8 +72,6 @@ namespace AlexisCorePro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            HostingEnvironment = env;
-
             app.UseCors("AllowAll");
 
             app.UseMvc();

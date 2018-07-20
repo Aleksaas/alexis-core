@@ -9,7 +9,7 @@ namespace AlexisCorePro.Domain
     {
         public static void SeedANSI(string scriptName, DatabaseContext context)
         {
-            var sql = File.ReadAllText(GetProperPath(scriptName), Encoding.GetEncoding(1252));
+            var sql = File.ReadAllText(GetProperPath(scriptName), System.Text.Encoding.GetEncoding(1252));
 
             context.Database.ExecuteSqlCommand(sql);
         }

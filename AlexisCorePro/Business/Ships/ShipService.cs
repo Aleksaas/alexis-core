@@ -18,35 +18,19 @@ namespace AlexisCorePro.Business.Ships
         public override IQueryable<Ship> AddSearchFilter<T>(IQueryable<Ship> model, T query)
         {
             var shipQuery = query as ShipQuery;
-            var locale = CultureHelper.GetCulture(shipQuery.Locale);
 
-            if (shipQuery.Id != null)
-            {
-                model = model.Where(e => e.Id == shipQuery.Id);
-            }
+            var locale = CultureHelper.GetCulture(shipQuery.Locale);
 
             if (!string.IsNullOrEmpty(shipQuery.Name))
             {
-                // An example how would it look if we had 2 languages
-                if (locale == CultureTwoLetterISONames.English)
-                {
-                    model = model.Where(e => e.Name == shipQuery.Name);
-                }
-                else
-                {
-                    model = model.Where(e => e.Name == shipQuery.Name);
-                }
+                model = locale == CultureTwoLetterISONames.English ?
+                    model.Where(e => e.Name == shipQuery.Name) :
+                    model.Where(e => e.Name == shipQuery.Name);
             }
 
-            if (shipQuery.Imd != null)
-            {
-                model = model.Where(e => e.Imd == shipQuery.Imd);
-            }
-
-            if (shipQuery.Mmsi != null)
-            {
-                model = model.Where(e => e.Mmsi == shipQuery.Mmsi);
-            }
+            model = shipQuery.Id != null ? model.Where(e => e.Id == shipQuery.Id) : model;
+            model = shipQuery.Imd != null ? model.Where(e => e.Imd == shipQuery.Imd) : model;
+            model = shipQuery.Mmsi != null ? model.Where(e => e.Mmsi == shipQuery.Mmsi) : model;
 
             return model;
         }

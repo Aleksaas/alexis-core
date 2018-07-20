@@ -10,11 +10,11 @@ namespace AlexisCorePro.Infrastructure.Extensions
         public static IServiceCollection RegisterServices(
             this IServiceCollection services)
         {
-            services.AddTransient<DatabaseContext, DatabaseContext>();
-            services.AddTransient<DatabaseInitializer, DatabaseInitializer>();
-            services.AddTransient<DatabaseSeed, DatabaseSeed>();
-            services.AddTransient<ShipService, ShipService>();
-            services.AddTransient<EnumsService, EnumsService>();
+            services.AddScoped<DatabaseContext, DatabaseContext>();
+            services.AddScoped<DatabaseInitializer, DatabaseInitializer>();
+            services.AddScoped<DatabaseSeed, DatabaseSeed>();
+            services.AddScoped<ShipService, ShipService>();
+            services.AddScoped<EnumsService, EnumsService>();
 
             return services;
         }

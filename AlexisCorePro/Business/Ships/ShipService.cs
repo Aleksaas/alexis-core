@@ -2,6 +2,7 @@
 using AlexisCorePro.Business.Ships.Commands;
 using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
+using AlexisCorePro.Infrastructure.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace AlexisCorePro.Business.Ships
         public override IQueryable<Ship> AddSearchFilter<T>(IQueryable<Ship> model, T query)
         {
             var shipQuery = query as ShipQuery;
+            var locale = CultureHelper.GetCulture(shipQuery.Locale);
 
             if (shipQuery.Id != null)
             {
@@ -25,7 +27,15 @@ namespace AlexisCorePro.Business.Ships
 
             if (!string.IsNullOrEmpty(shipQuery.Name))
             {
-                model = model.Where(e => e.Name == shipQuery.Name);
+                // An example how would it look if we had 2 languages
+                if (locale == CultureTwoLetterISONames.English)
+                {
+                    model = model.Where(e => e.Name == shipQuery.Name);
+                }
+                else
+                {
+                    model = model.Where(e => e.Name == shipQuery.Name);
+                }
             }
 
             if (shipQuery.Imd != null)

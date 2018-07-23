@@ -36,12 +36,12 @@ namespace AlexisCorePro.Business.Ships.Commands
 
         private bool HaveUniqueName(ShipCommand cmd)
         {
-            return false;
+            return true;
         }
 
         private bool MustNotExceedMaxCustomerShipNum(ShipCommand cmd)
         {
-            return false;
+            return true;
         }
     }
 }

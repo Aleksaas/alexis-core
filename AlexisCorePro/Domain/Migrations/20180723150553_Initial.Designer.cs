@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlexisCorePro.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180713111320_InitialModelsAdded")]
-    partial class InitialModelsAdded
+    [Migration("20180723150553_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -101,7 +101,7 @@ namespace AlexisCorePro.Domain.Migrations
 
                     b.HasIndex("ShipId");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("Equipments");
                 });
 
             modelBuilder.Entity("AlexisCorePro.Domain.Model.Postnumber", b =>

@@ -1,7 +1,7 @@
 ﻿using AlexisCorePro.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Linq;
 
 namespace AlexisCorePro.Domain
 {
@@ -9,28 +9,42 @@ namespace AlexisCorePro.Domain
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
-            //var entities = ChangeTracker
-            //    .Entries()
-            //    .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added && x.Entity != null && typeof(BaseModel).IsAssignableFrom(x.Entity.GetType()))
-            //    .ToList();
+            ChangeTracker.StateChanged += (object sender, EntityStateChangedEventArgs e) =>
+            {
+                DateTime currentTime = DateTime.Now;
 
-            //var currentTime = DateTime.Now;
+                BaseModel entityBase = e.Entry.Entity as BaseModel;
 
-            //foreach (var entity in entities)
-            //{
-            //    var entityBase = entity.Entity as BaseModel;
+                if (e.Entry.State == EntityState.Modified)
+                {
+                    entityBase.UpdateAt = currentTime;
+                    entityBase.UpdatedById = CurrentUserId;
+                }
+            };
 
-            //    if (entity.State == EntityState.Added)
-            //        entityBase.CreatedAt = currentTime;
+            ChangeTracker.Tracked += (object sender, EntityTrackedEventArgs e) =>
+            {
+                DateTime currentTime = DateTime.Now;
 
-            //    entityBase.UpdateAt = currentTime;
-            //}
+                BaseModel entityBase = e.Entry.Entity as BaseModel;
+
+                if (e.Entry.State == EntityState.Added)
+                {
+                    entityBase.CreatedAt = currentTime;
+                    entityBase.CreatedById = CurrentUserId;
+                    entityBase.UpdateAt = currentTime;
+                    entityBase.UpdatedById = CurrentUserId;
+                }
+            };
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // optionsBuilder.UseSqlServer(Startup.Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure());
         }
+
+        public int CurrentUserId { get; set; } = 1;
 
         public DbSet<Ship> Ships { get; set; }
 

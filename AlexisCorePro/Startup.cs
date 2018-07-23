@@ -45,6 +45,7 @@ namespace AlexisCorePro
             {
                 opt.Filters.Add(typeof(GlobalExceptionFilter));
                 opt.Filters.Add(typeof(LanguageFilter));
+                opt.Filters.Add(typeof(AuthenticationFilter));
             })
             .AddJsonOptions(options => { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); })
             .AddFluentValidation(cfg =>

@@ -76,6 +76,8 @@ namespace AlexisCorePro
             app.UseCors("AllowAll");
 
             app.UseMvc();
+
+            app.MigrateDatabase();
         }
     }
 }

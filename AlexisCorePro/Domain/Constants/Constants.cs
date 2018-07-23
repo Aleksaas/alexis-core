@@ -8,6 +8,8 @@
         public static readonly int TextAreaLength = 500;
 
         public const string Language = "en";
+
+        public const int PageSize = 10;
     }
 
     public static class CultureTwoLetterISONames

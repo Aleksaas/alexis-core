@@ -26,5 +26,10 @@ namespace AlexisCorePro.Business.Common.Model
                 Errors = new List<ApiError> { error };
             }
         }
+
+        public Response()
+        {
+
+        }
     }
 }

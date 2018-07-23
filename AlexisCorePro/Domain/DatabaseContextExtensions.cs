@@ -18,7 +18,11 @@ namespace AlexisCorePro.Domain
         /// <returns></returns>
         public static async Task<SearchResponse<TResult>> ToPaginated<TResult>(this IQueryable<TResult> query, int pageNumber, int pageSize)
         {
-            query = query.Skip(pageNumber - 1).Take(pageSize);
+            pageNumber = pageNumber > 0 ? pageNumber - 1 : pageNumber;
+
+            pageSize = pageSize <= 0 ? Default.PageSize : pageSize;
+
+            query = query.Skip(pageNumber).Take(pageSize);
 
             return new SearchResponse<TResult>
             {

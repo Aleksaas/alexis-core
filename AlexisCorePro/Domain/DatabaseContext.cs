@@ -1,11 +1,13 @@
 ﻿using AlexisCorePro.Domain.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<User>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
@@ -13,12 +15,15 @@ namespace AlexisCorePro.Domain
             {
                 DateTime currentTime = DateTime.Now;
 
-                BaseModel entityBase = e.Entry.Entity as BaseModel;
-
-                if (e.Entry.State == EntityState.Modified)
+                if (e.Entry.Entity is BaseModel)
                 {
-                    entityBase.UpdateAt = currentTime;
-                    entityBase.UpdatedById = CurrentUserId;
+                    BaseModel entityBase = e.Entry.Entity as BaseModel;
+
+                    if (e.Entry.State == EntityState.Modified)
+                    {
+                        entityBase.UpdateAt = currentTime;
+                        entityBase.UpdatedById = CurrentUser?.Id;
+                    }
                 }
             };
 
@@ -26,14 +31,17 @@ namespace AlexisCorePro.Domain
             {
                 DateTime currentTime = DateTime.Now;
 
-                BaseModel entityBase = e.Entry.Entity as BaseModel;
-
-                if (e.Entry.State == EntityState.Added)
+                if (e.Entry.Entity is BaseModel)
                 {
-                    entityBase.CreatedAt = currentTime;
-                    entityBase.CreatedById = CurrentUserId;
-                    entityBase.UpdateAt = currentTime;
-                    entityBase.UpdatedById = CurrentUserId;
+                    BaseModel entityBase = e.Entry.Entity as BaseModel;
+
+                    if (e.Entry.State == EntityState.Added)
+                    {
+                        entityBase.CreatedAt = currentTime;
+                        entityBase.CreatedById = CurrentUser?.Id;
+                        entityBase.UpdateAt = currentTime;
+                        entityBase.UpdatedById = CurrentUser?.Id;
+                    }
                 }
             };
         }
@@ -44,7 +52,7 @@ namespace AlexisCorePro.Domain
             // optionsBuilder.UseSqlServer(Startup.Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure());
         }
 
-        public int CurrentUserId { get; set; } = 1;
+        public User CurrentUser { get; set; }
 
         public DbSet<Ship> Ships { get; set; }
 
@@ -61,7 +69,7 @@ namespace AlexisCorePro.Domain
             base.OnModelCreating(modelBuilder);
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
-            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Id > 10);
+            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Id == CurrentUserId);
         }
     }
 }

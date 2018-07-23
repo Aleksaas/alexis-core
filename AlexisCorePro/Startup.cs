@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Domain;
+using AlexisCorePro.Domain.Model;
 using AlexisCorePro.Infrastructure.Extensions;
 using AlexisCorePro.Infrastructure.Filters;
 using AutoMapper;
@@ -6,6 +7,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,12 +58,15 @@ namespace AlexisCorePro
 
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            // services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase("AlexisProInMemoryDb"));
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
-            services.RegisterServices();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DatabaseContext>()
+                .AddDefaultTokenProviders();
 
+            services.RegisterServices();
+            services.RegisterJwt();
             services.AddAutoMapper();
         }
 

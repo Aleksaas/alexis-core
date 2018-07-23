@@ -9,6 +9,8 @@ using AlexisCorePro.Business.Ships.Commands;
 using AlexisCorePro.Domain;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -80,6 +82,7 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService

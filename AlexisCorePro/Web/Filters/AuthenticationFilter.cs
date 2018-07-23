@@ -1,18 +1,19 @@
-﻿using System.Globalization;
-using AlexisCorePro.Domain;
-using AlexisCorePro.Infrastructure.Helpers;
+﻿using AlexisCorePro.Domain;
+using AlexisCorePro.Domain.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AlexisCorePro.Infrastructure.Filters
 {
     public class AuthenticationFilter : IActionFilter
     {
-        private DatabaseContext Context { get; }
+        private readonly DatabaseContext ctx;
+        private readonly UserManager<User> userManager;
 
-        public AuthenticationFilter(DatabaseContext ctx)
+        public AuthenticationFilter(DatabaseContext ctx, UserManager<User> userManager)
         {
-            Context = ctx;
+            this.ctx = ctx;
+            this.userManager = userManager;
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -20,9 +21,14 @@ namespace AlexisCorePro.Infrastructure.Filters
 
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+        public async void OnActionExecuting(ActionExecutingContext context)
         {
-            Context.CurrentUserId = 2;
+            var username = context.HttpContext.User.FindFirst(e => true)?.Value;
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                ctx.CurrentUser = await userManager.FindByNameAsync(username);
+            }
         }
     }
 

@@ -9,22 +9,22 @@ namespace AlexisCorePro.Domain
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
-            var entities = ChangeTracker
-                .Entries()
-                .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added && x.Entity != null && typeof(BaseModel).IsAssignableFrom(x.Entity.GetType()))
-                .ToList();
+            //var entities = ChangeTracker
+            //    .Entries()
+            //    .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added && x.Entity != null && typeof(BaseModel).IsAssignableFrom(x.Entity.GetType()))
+            //    .ToList();
 
-            var currentTime = DateTime.Now;
+            //var currentTime = DateTime.Now;
 
-            foreach (var entity in entities)
-            {
-                var entityBase = entity.Entity as BaseModel;
+            //foreach (var entity in entities)
+            //{
+            //    var entityBase = entity.Entity as BaseModel;
 
-                if (entity.State == EntityState.Added)
-                    entityBase.CreatedAt = currentTime;
+            //    if (entity.State == EntityState.Added)
+            //        entityBase.CreatedAt = currentTime;
 
-                entityBase.UpdateAt = currentTime;
-            }
+            //    entityBase.UpdateAt = currentTime;
+            //}
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,6 +45,9 @@ namespace AlexisCorePro.Domain
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
+            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Id > 10);
         }
     }
 }

@@ -24,12 +24,13 @@ namespace AlexisCorePro.Infrastructure.Extensions
                 {
                     dbContext.Database.EnsureDeleted();
                     dbContext.Database.EnsureCreated();
-                    //dbInitializer.Initialize();
+                    dbInitializer.Initialize();
                     dbSeed.Seed();
                 }
                 else
                 {
                     dbContext.Database.Migrate();
+                    dbInitializer.Initialize();
                 }
 
             }

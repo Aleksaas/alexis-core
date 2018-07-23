@@ -24,8 +24,8 @@ namespace AlexisCorePro
         public static IConfiguration Configuration { get; set; }
 
         public static IHostingEnvironment HostingEnvironment { get; set; }
-        
-         // This method gets called by the runtime. Use this method to add services to the container.
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -47,22 +47,17 @@ namespace AlexisCorePro
                 opt.Filters.Add(typeof(LanguageFilter));
             })
             .AddJsonOptions(options => { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); })
-            .AddFluentValidation(cfg => {
+            .AddFluentValidation(cfg =>
+            {
                 cfg.RegisterValidatorsFromAssemblyContaining<Startup>();
                 cfg.ImplicitlyValidateChildProperties = true;
             });
 
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            if (HostingEnvironment.IsDevelopment())
-            {
-                services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase("AlexisProInMemoryDb"));
-            }
-            else
-            {
-                services.AddDbContext<DatabaseContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
-            }
+            // services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase("AlexisProInMemoryDb"));
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
             services.RegisterServices();
 

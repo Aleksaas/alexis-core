@@ -69,7 +69,7 @@ namespace AlexisCorePro.Domain
             base.OnModelCreating(modelBuilder);
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
-            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Id == CurrentUserId);
+            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.isPublished || CurrentUser);
         }
     }
 }

@@ -20,13 +20,23 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public async Task Get()
+        public async Task GetById_Success()
         {
             HttpResponseMessage httpResponse = await _client.GetAsync("api/ships/1");
 
             var response = await TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
 
             Assert.AreEqual(1, response.Data.Id);
+        }
+
+        [TestMethod]
+        public async Task GetById_Failure()
+        {
+            HttpResponseMessage httpResponse = await _client.GetAsync("api/ships/999999");
+
+            var response = await TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
+
+            Assert.AreNotSame(0, response.Errors.Count);
         }
 
         [TestMethod]
@@ -42,7 +52,7 @@ namespace IntegrationTests
 
             var response = await TestHelper.GetResponseContent<Response<SearchResponse<ShipListItem>>>(httpResponse);
 
-            Assert.AreEqual(1, response.Data.EntriesCount);
+            Assert.AreNotSame(0, response.Data.EntriesCount);
         }
     }
 }

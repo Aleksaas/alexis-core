@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain.Model
 {
-    public class Role : IdentityRole<string>
+    public class Role : IdentityRole<int>
     {
         public List<UserRole> UserRoles { get; set; }
     }

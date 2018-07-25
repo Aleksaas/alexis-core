@@ -10,8 +10,8 @@ namespace AlexisCorePro.Domain.Model
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdateAt { get; set; }
 
-        public string CreatedById { get; set; }
-        public string UpdatedById { get; set; }
+        public int? CreatedById { get; set; }
+        public int? UpdatedById { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }

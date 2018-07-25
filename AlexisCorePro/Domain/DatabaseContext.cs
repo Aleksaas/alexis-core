@@ -7,7 +7,7 @@ using System;
 
 namespace AlexisCorePro.Domain
 {
-    public class DatabaseContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+    public class DatabaseContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
@@ -76,9 +76,6 @@ namespace AlexisCorePro.Domain
                 .HasOne(x => x.Role)
                 .WithMany(x => x.UserRoles)
                 .HasForeignKey(x => x.RoleId);
-
-            modelBuilder.Entity<UserRole>()
-                .HasKey(e => e.Id);
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
             // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.isPublished || CurrentUser);

@@ -1,8 +1,10 @@
 ﻿using AlexisCorePro.Domain.Model;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -12,13 +14,15 @@ namespace AlexisCorePro.Infrastructure.Helpers
     {
         public static object GenerateJwtToken(string email, User user)
         {
+            var roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.RolesString)
+                new Claim(ClaimTypes.Role, user.RolesString),
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Username", user.UserName),
+                new Claim("Roles", JsonConvert.SerializeObject(roles)),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["JwtKey"]));

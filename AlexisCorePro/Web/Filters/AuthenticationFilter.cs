@@ -1,7 +1,9 @@
-﻿using AlexisCorePro.Domain;
+﻿using AlexisCorePro.Business.Users;
+using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
 
 namespace AlexisCorePro.Infrastructure.Filters
 {
@@ -21,13 +23,13 @@ namespace AlexisCorePro.Infrastructure.Filters
 
         }
 
-        public async void OnActionExecuting(ActionExecutingContext context)
+        public void OnActionExecuting(ActionExecutingContext context)
         {
-            var username = context.HttpContext.User.FindFirst(e => true)?.Value;
+            var username = context.HttpContext.User.Identity.Name;
 
             if (!string.IsNullOrEmpty(username))
             {
-                ctx.CurrentUser = await userManager.FindByNameAsync(username);
+                ctx.CurrentUser = ctx.Users.IncludeAll().First(u => u.UserName == username);
             }
         }
     }

@@ -7,7 +7,7 @@ namespace AlexisCorePro.Domain.Model
     {
         public int Id { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdateAt { get; set; }
 
         public string CreatedById { get; set; }

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace AlexisCorePro
 {
@@ -61,7 +62,7 @@ namespace AlexisCorePro
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
@@ -71,13 +72,13 @@ namespace AlexisCorePro
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("AllowAll");
 
             app.UseMvc();
 
-            app.MigrateDatabase();
+            await app.MigrateDatabase();
         }
     }
 }

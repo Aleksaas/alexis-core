@@ -82,7 +82,7 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService

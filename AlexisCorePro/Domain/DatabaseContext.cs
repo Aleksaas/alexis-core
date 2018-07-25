@@ -1,13 +1,13 @@
 ﻿using AlexisCorePro.Domain.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain
 {
-    public class DatabaseContext : IdentityDbContext<User>
+    public class DatabaseContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
@@ -37,7 +37,6 @@ namespace AlexisCorePro.Domain
 
                     if (e.Entry.State == EntityState.Added)
                     {
-                        entityBase.CreatedAt = currentTime;
                         entityBase.CreatedById = CurrentUser?.Id;
                         entityBase.UpdateAt = currentTime;
                         entityBase.UpdatedById = CurrentUser?.Id;
@@ -67,6 +66,19 @@ namespace AlexisCorePro.Domain
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserRoles)
+                .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(x => x.Role)
+                .WithMany(x => x.UserRoles)
+                .HasForeignKey(x => x.RoleId);
+
+            modelBuilder.Entity<UserRole>()
+                .HasKey(e => e.Id);
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
             // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.isPublished || CurrentUser);

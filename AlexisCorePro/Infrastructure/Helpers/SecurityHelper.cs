@@ -17,7 +17,8 @@ namespace AlexisCorePro.Infrastructure.Helpers
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.RolesString)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["JwtKey"]));

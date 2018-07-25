@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
 namespace IntegrationTests
@@ -33,14 +34,6 @@ namespace IntegrationTests
                         options.UseInMemoryDatabase("AlexisPro");
                         options.UseInternalServiceProvider(serviceProvider);
                     });
-
-                    ServiceProvider sp = services.BuildServiceProvider();
-
-                    using (IServiceScope scope = sp.CreateScope())
-                    {
-                        IServiceProvider scopedServices = scope.ServiceProvider;
-                        DatabaseContext db = scopedServices.GetRequiredService<DatabaseContext>();
-                    }
                 });
 
                 TestServer testServer = new TestServer(builder);
@@ -56,6 +49,12 @@ namespace IntegrationTests
             string responseString = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseString);
+        }
+
+        [AssemblyInitialize()]
+        public static void TestInitialize(TestContext testContext)
+        {
+
         }
     }
 }

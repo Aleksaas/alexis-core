@@ -2,23 +2,28 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Users;
+using AlexisCorePro.Controllers;
+using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
 using AlexisCorePro.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlexisCorePro.Web.Controllers
 {
     [Route("[controller]/[action]")]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
         public AccountController(
             UserManager<User> userManager,
-            SignInManager<User> signInManager
-            )
+            SignInManager<User> signInManager,
+            DatabaseContext ctx
+            ) : base(ctx)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -31,7 +36,7 @@ namespace AlexisCorePro.Web.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                var appUser = ctx.Users.IncludeAll().SingleOrDefault(r => r.Email == model.Email);
 
                 return SecurityHelper.GenerateJwtToken(model.Email, appUser);
             }
@@ -54,7 +59,9 @@ namespace AlexisCorePro.Web.Controllers
             {
                 await _signInManager.SignInAsync(user, false);
 
-                return SecurityHelper.GenerateJwtToken(model.Email, user);
+                var createdUser = ctx.Users.IncludeAll().SingleOrDefault(r => r.Email == model.Email);
+
+                return SecurityHelper.GenerateJwtToken(model.Email, createdUser);
             }
 
             throw new Exception("UNKNOWN_ERROR");

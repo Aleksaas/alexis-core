@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AlexisCorePro.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace AlexisCorePro.Domain
@@ -17,7 +18,9 @@ namespace AlexisCorePro.Domain
 
         public void Initialize()
         {
-            InsertPostnumbers();
+            // InsertPostnumbers();
+
+            InsertRoles();
 
             ctx.SaveChanges();
         }
@@ -27,6 +30,24 @@ namespace AlexisCorePro.Domain
             if (ctx.Postnumbers.Count() == 0)
             {
                 SeedScripts.SeedANSI("InsertPostnumbers.sql", ctx);
+            }
+        }
+
+        private void InsertRoles()
+        {
+            if (ctx.Roles.Count() == 0)
+            {
+                ctx.Roles.Add(new Role
+                {
+                    Name = Roles.Admin,
+                    NormalizedName = Roles.Admin.ToUpper()
+                });
+
+                ctx.Roles.Add(new Role
+                {
+                    Name = Roles.User,
+                    NormalizedName = Roles.User.ToUpper()
+                });
             }
         }
     }

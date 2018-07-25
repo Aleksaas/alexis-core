@@ -1,5 +1,8 @@
 ﻿using AlexisCorePro.Domain.Model;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AlexisCorePro.Domain
 {
@@ -15,7 +18,7 @@ namespace AlexisCorePro.Domain
             this.ctx = ctx;
         }
 
-        public void Seed()
+        public async Task Seed(UserManager<User> userManager)
         {
             var company1 = ctx.Companies.Add(new Company
             {
@@ -40,6 +43,22 @@ namespace AlexisCorePro.Domain
             {
                 Name = "Equipment-#1",
                 Ship = ship1
+            });
+
+            IdentityResult result = await userManager.CreateAsync(new User
+            {
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
+
+            }, "Admin123!");
+
+            var adminUser = ctx.Users.First(u => u.Email == "admin@gmail.com");
+            var adminRole = ctx.Roles.First(u => u.Name == Roles.Admin);
+
+            ctx.UserRoles.Add(new UserRole
+            {
+                UserId = adminUser.Id,
+                RoleId = adminRole.Id
             });
 
             ctx.SaveChanges();

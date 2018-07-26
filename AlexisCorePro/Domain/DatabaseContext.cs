@@ -45,12 +45,6 @@ namespace AlexisCorePro.Domain
             };
         }
 
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // optionsBuilder.UseSqlServer(Startup.Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure());
-        }
-
         public User CurrentUser { get; set; }
 
         public DbSet<Ship> Ships { get; set; }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NSwag.Annotations;
 
 namespace AlexisCorePro.Controllers
 {
@@ -30,6 +31,7 @@ namespace AlexisCorePro.Controllers
 
         // GET api/ships/5
         [HttpGet("{id}")]
+        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<Response<ShipDetails>> Get(int id)
         {
             var result = await ctx.Ships
@@ -42,6 +44,7 @@ namespace AlexisCorePro.Controllers
 
         // POST api/ships
         [HttpPost]
+        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<Response<ShipDetails>> Post([FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Create(cmd);
@@ -51,6 +54,7 @@ namespace AlexisCorePro.Controllers
 
         // PUT api/ships/5
         [HttpPut("{id}")]
+        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<Response<ShipDetails>> Put(int id, [FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Update(id, cmd);
@@ -60,6 +64,7 @@ namespace AlexisCorePro.Controllers
 
         // DELETE api/ships/5
         [HttpDelete("{id}")]
+        [SwaggerResponse(200, typeof(bool))]
         public async Task<Response<bool>> Delete(int id)
         {
             await shipService.Delete(id);
@@ -82,6 +87,7 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
+        [SwaggerResponse(200, typeof(ShipListItem))]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
@@ -96,6 +102,7 @@ namespace AlexisCorePro.Controllers
         // GET api/ships/reports/month
         [Route("/api/ships/reports/month")]
         [HttpPost]
+        [SwaggerResponse(200, typeof(ShipMonthReport))]
         public async Task<Response<SearchResponse<ShipMonthReport>>> SearchMonthReport([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService
@@ -109,6 +116,7 @@ namespace AlexisCorePro.Controllers
         // GET api/customers/1/ships
         [Route("/api/customers/{id}/ships")]
         [HttpGet]
+        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<IEnumerable<ShipDetails>> GetShipsForCustomer(int id)
         {
             return await ctx.Ships

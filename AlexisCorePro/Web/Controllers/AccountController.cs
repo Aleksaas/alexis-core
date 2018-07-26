@@ -9,11 +9,9 @@ using AlexisCorePro.Domain.Model;
 using AlexisCorePro.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlexisCorePro.Web.Controllers
 {
-    [Route("[controller]/[action]")]
     public class AccountController : BaseController
     {
         private readonly SignInManager<User> _signInManager;
@@ -29,6 +27,7 @@ namespace AlexisCorePro.Web.Controllers
             _signInManager = signInManager;
         }
 
+        [Route("/api/account/login")]
         [HttpPost]
         public async Task<object> Login([FromBody] LoginDto model)
         {
@@ -44,6 +43,7 @@ namespace AlexisCorePro.Web.Controllers
             throw new Exception("INVALID_LOGIN_ATTEMPT");
         }
 
+        [Route("/api/account/register")]
         [HttpPost]
         public async Task<object> Register([FromBody] RegisterDto model)
         {

@@ -13,6 +13,7 @@ namespace AlexisCorePro.Controllers
             this.ctx = ctx;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public Response<T> OkResponse<T>(T data)
         {
             return new Response<T>(data);

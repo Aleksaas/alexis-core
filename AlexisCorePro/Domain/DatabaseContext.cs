@@ -72,7 +72,7 @@ namespace AlexisCorePro.Domain
                 .HasForeignKey(x => x.RoleId);
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
-            // modelBuilder.Entity<Ship>().HasQueryFilter(e => false || CurrentUser.HasRole(Domain.Roles.Admin));
+            // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Published || CurrentUser.HasRole(Domain.Roles.Admin));
         }
     }
 }

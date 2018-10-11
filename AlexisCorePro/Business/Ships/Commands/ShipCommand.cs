@@ -1,6 +1,8 @@
 ﻿using AlexisCorePro.Business.Common.Commands;
 using AlexisCorePro.Domain;
 using FluentValidation;
+using Localization.Resources;
+using Microsoft.Extensions.Localization;
 using System;
 
 namespace AlexisCorePro.Business.Ships.Commands
@@ -20,15 +22,18 @@ namespace AlexisCorePro.Business.Ships.Commands
 
     public class ShipCommandValidator : AbstractValidator<ShipCommand>
     {
-        public ShipCommandValidator()
+        public ShipCommandValidator(IStringLocalizer<SharedResource> stringLocalizer)
         {
             RuleFor(cmd => cmd.Name).NotEmpty().MaximumLength(Default.TextFieldLength);
             RuleFor(cmd => cmd.Date).GreaterThan(DateTime.Today);
             RuleFor(cmd => cmd.Imd).NotEmpty();
             RuleFor(cmd => cmd.Mmsi).NotEmpty();
             RuleFor(cmd => cmd.CustomerId).NotEmpty();
-            RuleFor(cmd => cmd).Must(HaveUniqueName).WithMessage("Name must be unique.")
-                .Must(MustNotExceedMaxCustomerShipNum).WithMessage("Max number of ships exceeded.");
+            RuleFor(cmd => cmd)
+            .Must(HaveUniqueName)
+                .WithMessage(stringLocalizer["NameUnique"])
+            .Must(MustNotExceedMaxCustomerShipNum)
+                .WithMessage(stringLocalizer["MuxNumberShips"]);
 
             // If first one is not true, then chained one will not be executed, like in the first and last example here because of
             // ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure; in Startup.cs
@@ -36,7 +41,7 @@ namespace AlexisCorePro.Business.Ships.Commands
 
         private bool HaveUniqueName(ShipCommand cmd)
         {
-            return true;
+            return false;
         }
 
         private bool MustNotExceedMaxCustomerShipNum(ShipCommand cmd)

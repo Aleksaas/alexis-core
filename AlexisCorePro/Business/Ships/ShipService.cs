@@ -10,9 +10,11 @@ namespace AlexisCorePro.Business.Ships
 {
     public class ShipService : BaseService<Ship>
     {
-        public ShipService(DatabaseContext ctx) : base(ctx.Ships, ctx)
-        {
+        private readonly ShipCommandValidator shipCmdValidator;
 
+        public ShipService(DatabaseContext ctx, ShipCommandValidator shipCmdValidator) : base(ctx.Ships, ctx)
+        {
+            this.shipCmdValidator = shipCmdValidator;
         }
 
         public override IQueryable<Ship> AddSearchFilter<T>(IQueryable<Ship> model, T query)
@@ -42,7 +44,7 @@ namespace AlexisCorePro.Business.Ships
         /// <returns></returns>
         public async Task<Ship> Create(ShipCommand cmd)
         {
-            cmd.Validate<ShipCommand, ShipCommandValidator>();
+            cmd.Validate<ShipCommand, ShipCommandValidator>(shipCmdValidator);
 
             var record = ctx.Ships.Add(new Ship
             {
@@ -65,7 +67,7 @@ namespace AlexisCorePro.Business.Ships
         /// <returns></returns>
         public async Task<Ship> Update(int id, ShipCommand cmd)
         {
-            cmd.Validate<ShipCommand, ShipCommandValidator>();
+            cmd.Validate<ShipCommand, ShipCommandValidator>(shipCmdValidator);
 
             var ship = await ctx.Ships.FindAsync(id);
 

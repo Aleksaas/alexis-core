@@ -11,12 +11,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration.Processors.Security;
 using System.Reflection;
+using System.Globalization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Localization;
+using Localization.Resources;
 
 namespace AlexisCorePro
 {
@@ -31,6 +36,8 @@ namespace AlexisCorePro
         public static IConfiguration Configuration { get; set; }
 
         public static IHostingEnvironment HostingEnvironment { get; set; }
+
+        public static IStringLocalizer<SharedResource> StringLocalizer { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -73,6 +80,8 @@ namespace AlexisCorePro
             services.RegisterServices();
             services.RegisterJwt();
             services.AddAutoMapper();
+
+            services.AddLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +101,7 @@ namespace AlexisCorePro
                         Type = SwaggerSecuritySchemeType.ApiKey,
                         Name = "Authorization",
                         Description = $"Copy 'Bearer ' + valid JWT token into field",
-                        In = SwaggerSecurityApiKeyLocation.Header,                    
+                        In = SwaggerSecurityApiKeyLocation.Header,
                     }));
             });
 

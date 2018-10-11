@@ -1,5 +1,6 @@
 ﻿using AlexisCorePro.Business.Common;
 using AlexisCorePro.Business.Ships;
+using AlexisCorePro.Business.Ships.Commands;
 using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +24,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
             services.AddScoped<ShipService>();
             services.AddScoped<EnumsService>();
             services.AddScoped<UserManager<User>>();
+            services.AddScoped<ShipCommandValidator>();
 
             return services;
         }

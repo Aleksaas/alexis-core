@@ -48,6 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Localization\Localization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Domain\Scripts\InsertPostnumbers.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

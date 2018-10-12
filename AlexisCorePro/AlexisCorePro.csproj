@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Business\Customers\Commands\**" />
     <Compile Remove="wwwroot\**" />
+    <Content Remove="Business\Customers\Commands\**" />
     <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Business\Customers\Commands\**" />
     <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Business\Customers\Commands\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
 
@@ -21,10 +25,6 @@
     <Compile Remove="Domain\Migrations\20180617180536_Initial.Designer.cs" />
     <Compile Remove="Domain\Migrations\20180617214033_CompanyAdded.cs" />
     <Compile Remove="Domain\Migrations\20180617214033_CompanyAdded.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Business\Customers\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,8 @@ namespace AlexisCorePro.Business.Ships.Commands
 {
     public class ShipCommand : BaseCommand
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public DateTime Date { get; set; }
@@ -40,12 +42,9 @@ namespace AlexisCorePro.Business.Ships.Commands
             RuleFor(cmd => cmd.Mmsi).NotEmpty();
             RuleFor(cmd => cmd.CustomerId).NotEmpty();
             RuleFor(cmd => cmd)
-            .Must((cmd) => shipValidations.IsNameUnique(cmd.Name))
-                .WithMessage(stringLocalizer["NameUnique"])
-            .Must((cmd) => shipValidations.IsMaxNumberReachedForCustomer(cmd.CustomerId))
-                .WithMessage(stringLocalizer["MuxNumberShips"])
-            .Must((cmd) => customerValidations.IsCustomerNotBlacklisted(cmd.CustomerId))
-                .WithMessage(stringLocalizer["CustomerBlacklisted"]);
+            .Must((cmd) => shipValidations.IsNameUnique(cmd.Name, cmd.Id)).WithMessage(stringLocalizer["NameUnique"])
+            .Must((cmd) => shipValidations.IsMaxNumberReachedForCustomer(cmd.CustomerId)).WithMessage(stringLocalizer["MuxNumberShips"])
+            .Must((cmd) => customerValidations.IsCustomerNotBlacklisted(cmd.CustomerId)).WithMessage(stringLocalizer["CustomerBlacklisted"]);
 
             // RuleFor(cmd => cmd.Name).Must((cmd, name) => name != cmd.Name);
 

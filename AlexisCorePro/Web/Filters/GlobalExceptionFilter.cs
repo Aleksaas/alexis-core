@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -40,6 +41,11 @@ namespace AlexisCorePro.Infrastructure.Filters
                 logger.LogError(0, context.Exception.GetBaseException(), "Exception occurred.");
 
                 string errorMessage = Startup.HostingEnvironment.IsDevelopment() ? context.Exception.Message : string.Empty;
+
+                if (context.Exception is DbUpdateConcurrencyException)
+                {
+                    errorMessage = "Someone already changed this record.";
+                }
 
                 content = JsonConvert
                     .SerializeObject(new Response<object>(null, new ApiError(500, "Something went wrong. " + errorMessage)), new JsonSerializerSettings

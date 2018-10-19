@@ -15,9 +15,9 @@ namespace AlexisCorePro.Business.Ships.Validations
             this.ctx = ctx;
         }
 
-        public bool IsNameUnique(string shipName)
+        public bool IsNameUnique(string shipName, int shipId)
         {
-            return !ctx.Ships.Any(e => e.Name == shipName);
+            return !ctx.Ships.Any(e => e.Name == shipName && e.Id != shipId);
         }
 
         public bool IsMaxNumberReachedForCustomer(int customerId)

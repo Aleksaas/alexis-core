@@ -1,4 +1,5 @@
-﻿using AlexisCorePro.Domain.Enums;
+﻿using AlexisCorePro.Business.Ships.Commands;
+using AlexisCorePro.Domain.Enums;
 using AlexisCorePro.Infrastructure.Helpers;
 using DelegateDecompiler;
 using System;
@@ -10,6 +11,8 @@ namespace AlexisCorePro.Domain.Model
 {
     public class Ship : BaseModel
     {
+        private DatabaseContext ctx;
+
         public string Name { get; set; }
 
         public int Imd { get; set; }
@@ -23,6 +26,15 @@ namespace AlexisCorePro.Domain.Model
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<Equipment> Equipments { get; set; }
+
+        public Ship()
+        {
+        }
+
+        private Ship(DatabaseContext context)
+        {
+            ctx = context;
+        }
 
         [NotMapped]
         [Computed]

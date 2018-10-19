@@ -7,10 +7,10 @@ namespace AlexisCorePro.Business.Common.Commands
 {
     public abstract class BaseCommand
     {
+        public byte[] RowVersion { get; set; }
+
         public virtual void Validate<T, U>(U validator) where T : BaseCommand where U : AbstractValidator<T>
         {
-            // var validator = new U();
-
             ValidationResult results = validator.Validate(this as T);
 
             if (!results.IsValid)

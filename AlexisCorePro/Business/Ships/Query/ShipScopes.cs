@@ -12,6 +12,8 @@ namespace AlexisCorePro.Business.Ships
         public int Imd { get; set; }
 
         public int Mmsi { get; set; }
+
+        public byte[] RowVersion { get; set; }
     }
 
     public class ShipDetails : ShipBasic

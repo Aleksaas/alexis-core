@@ -67,6 +67,8 @@ namespace AlexisCorePro.Business.Ships
         /// <returns></returns>
         public async Task<Ship> Update(int id, ShipCommand cmd)
         {
+            cmd.Id = id;
+
             cmd.Validate<ShipCommand, ShipCommandValidator>(shipCmdValidator);
 
             var ship = await ctx.Ships.FindAsync(id);
@@ -75,6 +77,8 @@ namespace AlexisCorePro.Business.Ships
             ship.Imd = cmd.Imd;
             ship.Mmsi = cmd.Mmsi;
             ship.CustomerId = cmd.CustomerId;
+
+            ctx.Entry(ship).OriginalValues["RowVersion"] = cmd.RowVersion;
 
             await ctx.SaveChangesAsync();
 

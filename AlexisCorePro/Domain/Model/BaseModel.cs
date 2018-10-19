@@ -13,7 +13,8 @@ namespace AlexisCorePro.Domain.Model
         public int? CreatedById { get; set; }
         public int? UpdatedById { get; set; }
 
+        [ConcurrencyCheck]
         [Timestamp]
-        public byte[] Timestamp { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

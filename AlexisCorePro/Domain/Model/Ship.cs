@@ -21,8 +21,6 @@ namespace AlexisCorePro.Domain.Model
 
         public int CustomerId { get; set; }
 
-        public bool Published { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<Equipment> Equipments { get; set; }

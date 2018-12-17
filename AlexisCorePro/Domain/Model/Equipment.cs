@@ -2,6 +2,7 @@
 using AlexisCorePro.Infrastructure.Helpers;
 using DelegateDecompiler;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlexisCorePro.Domain.Model
@@ -25,6 +26,8 @@ namespace AlexisCorePro.Domain.Model
         public int EquipmentTypeId { get; set; }
 
         public virtual Ship Ship { get; set; }
+
+        public virtual List<BulletinEquipment> BulletinEquipments { get; set; }
 
         [Computed]
         public virtual bool IsUpdatedInMonth(DateTime date)

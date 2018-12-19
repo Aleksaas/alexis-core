@@ -10,6 +10,8 @@ namespace AlexisCorePro.Domain.Model
     {
         public List<UserRole> UserRoles { get; set; }
 
+        public virtual Customer Customer { get; set; }
+
         [NotMapped]
         [Computed]
         public string RolesString => 

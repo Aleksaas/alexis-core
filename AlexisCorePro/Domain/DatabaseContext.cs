@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Domain.Model;
+using Innofactor.EfCoreJsonValueConverter;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,18 @@ namespace AlexisCorePro.Domain
 
         public DbSet<Postnumber> Postnumbers { get; set; }
 
+        public DbSet<Document> Documents { get; set; }
+
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+
+        public DbSet<Bulletin> Bulletins { get; set; }
+
+        public DbSet<BulletinType> BulletinTypes { get; set; }
+
+        public DbSet<BulletinEquipment> BulletinEquipments { get; set; }
+
+        public DbSet<BulletinTypeBulletin> BulletinTypeBulletins { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -70,6 +83,8 @@ namespace AlexisCorePro.Domain
                 .HasOne(x => x.Role)
                 .WithMany(x => x.UserRoles)
                 .HasForeignKey(x => x.RoleId);
+
+            modelBuilder.AddJsonFields();
 
             // modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "ShipTesting1" });
             // modelBuilder.Entity<Ship>().HasQueryFilter(e => e.Published || CurrentUser.HasRole(Domain.Roles.Admin));

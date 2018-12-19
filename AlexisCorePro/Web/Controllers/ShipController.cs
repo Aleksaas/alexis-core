@@ -7,6 +7,8 @@ using AlexisCorePro.Business.Common.Model.Search;
 using AlexisCorePro.Business.Ships;
 using AlexisCorePro.Business.Ships.Commands;
 using AlexisCorePro.Domain;
+using AlexisCorePro.Domain.Enums;
+using AlexisCorePro.Web.Filters;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +34,8 @@ namespace AlexisCorePro.Controllers
         // GET api/ships/5
         [HttpGet("{id}")]
         [SwaggerResponse(200, typeof(ShipDetails))]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        [ResourceAuthorize("id", ResourceType.Ship)]
         public async Task<Response<ShipDetails>> Get(int id)
         {
             var result = await ctx.Ships
@@ -88,7 +92,7 @@ namespace AlexisCorePro.Controllers
         [Route("/api/ships/search")]
         [HttpPost]
         [SwaggerResponse(200, typeof(ShipListItem))]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService

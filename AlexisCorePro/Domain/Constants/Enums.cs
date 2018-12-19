@@ -1,5 +1,18 @@
 ﻿namespace AlexisCorePro.Domain.Enums
 {
+    public enum ResourceType
+    {
+        Ship,
+        Customer,
+        Equipment,
+        Report,
+        Bulletin,
+        Document,
+        Task,
+        User,
+        SparePart
+    }
+
     public enum EquipmentCriticality
     {
         Normal,

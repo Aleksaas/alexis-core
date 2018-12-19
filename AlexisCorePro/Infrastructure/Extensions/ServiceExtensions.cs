@@ -1,4 +1,5 @@
-﻿using AlexisCorePro.Business.Common;
+﻿using AlexisCorePro.Business.Auth;
+using AlexisCorePro.Business.Common;
 using AlexisCorePro.Business.Customers.Validations;
 using AlexisCorePro.Business.Ships;
 using AlexisCorePro.Business.Ships.Commands;
@@ -25,6 +26,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
             services.AddScoped<DatabaseSeed>();
             services.AddScoped<ShipService>();
             services.AddScoped<EnumsService>();
+            services.AddScoped<PermissionService>();
             services.AddScoped<UserManager<User>>();
             services.AddScoped<ShipCommandValidator>();
             services.AddScoped<ShipValidations>();

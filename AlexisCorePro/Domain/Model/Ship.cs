@@ -59,5 +59,11 @@ namespace AlexisCorePro.Domain.Model
         {
             return Equipments.Where(e => e.IsUpdatedInMonth(date)).Count();
         }
+
+        [Computed]
+        public virtual bool HasAccess(int? userId)
+        {
+            return userId != null && Customer.Users.Any(u => u.Id == userId);
+        }
     }
 }

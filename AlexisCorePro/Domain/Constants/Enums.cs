@@ -1,4 +1,7 @@
-﻿namespace AlexisCorePro.Domain.Enums
+﻿using Localization.Resources;
+using System.ComponentModel.DataAnnotations;
+
+namespace AlexisCorePro.Domain.Enums
 {
     public enum ResourceType
     {
@@ -83,6 +86,7 @@
 
     public enum AisVesselType
     {
+        [Display(Name = nameof(SharedResource.AisVesselTypeOther), ResourceType = typeof(SharedResource))]
         Other
     }
 

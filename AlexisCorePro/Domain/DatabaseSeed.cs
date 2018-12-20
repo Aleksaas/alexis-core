@@ -49,7 +49,7 @@ namespace AlexisCorePro.Domain
             {
                 UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
-
+                Customer = customer1
             }, "Admin123!");
 
             var adminUser = ctx.Users.First(u => u.Email == "admin@gmail.com");

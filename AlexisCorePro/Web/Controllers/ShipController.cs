@@ -82,7 +82,7 @@ namespace AlexisCorePro.Controllers
         {
             var result = new
             {
-                AisVesselTypes = enumsService.GetAisVesselTypes()
+                AisVesselTypes = enumsService.GetEnumItems<AisVesselType>()
             };
 
             return OkResponse(result);

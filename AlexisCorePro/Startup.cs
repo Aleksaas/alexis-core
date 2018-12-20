@@ -82,6 +82,10 @@ namespace AlexisCorePro
             services.AddAutoMapper();
 
             services.AddLocalization();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            StringLocalizer = serviceProvider.GetService<IStringLocalizer<SharedResource>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

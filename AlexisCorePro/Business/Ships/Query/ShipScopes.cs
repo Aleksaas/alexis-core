@@ -1,5 +1,7 @@
 ﻿using AlexisCorePro.Business.Companies;
 using AlexisCorePro.Business.Customers;
+using AlexisCorePro.Domain.Enums;
+using AlexisCorePro.Infrastructure.Extensions;
 
 namespace AlexisCorePro.Business.Ships
 {
@@ -13,7 +15,11 @@ namespace AlexisCorePro.Business.Ships
 
         public int Mmsi { get; set; }
 
+        public AisVesselType AisVesselType { get; set; }
+
         public byte[] RowVersion { get; set; }
+
+        public string AisVesselTypeLabel => AisVesselType.ToDisplayName();
     }
 
     public class ShipDetails : ShipBasic

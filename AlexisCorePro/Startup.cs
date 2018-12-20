@@ -80,26 +80,12 @@ namespace AlexisCorePro
             services.RegisterServices();
             services.RegisterJwt();
             services.AddAutoMapper();
-
             services.AddLocalization();
 
-            var serviceProvider = services.BuildServiceProvider();
-
-            StringLocalizer = serviceProvider.GetService<IStringLocalizer<SharedResource>>();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            app.UseCors("AllowAll");
-
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            services.AddSwaggerDocument(settings =>
             {
-                settings.GeneratorSettings.DefaultPropertyNameHandling =
-                    PropertyNameHandling.CamelCase;
-                settings.GeneratorSettings.Title = "Alexis Core Pro";
-
-                settings.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
+                settings.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                settings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
                     new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
@@ -109,9 +95,21 @@ namespace AlexisCorePro
                     }));
             });
 
+            // var serviceProvider = services.BuildServiceProvider(); In case we need to access service here
+            // StringLocalizer = serviceProvider.GetService<IStringLocalizer<SharedResource>>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseCors("AllowAll");
+
             app.UseMvc();
 
             await app.MigrateDatabase();
+
+            // Inject IServiceProvider serviceProvider
+            // var service = serviceProvider.GetService<MyService>();
         }
     }
 }

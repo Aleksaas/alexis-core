@@ -1,6 +1,4 @@
 ﻿using AlexisCorePro.Business.Common.Model;
-using AlexisCorePro.Domain.Constants;
-using AlexisCorePro.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +8,14 @@ namespace AlexisCorePro.Business.Common
 {
     public class EnumsService
     {
-        public List<KeyValueItem> GetEnumItems<TEnum>()
+        public List<KeyValueItem> GetEnumItems<TEnum>() where TEnum : Enum
         {
             var enums = Enum.GetValues(typeof(TEnum)).OfType<TEnum>();
 
             return enums.Select(item => new KeyValueItem
             {
                 Id = item.ToString(),
-                Name = GetEnumDescription(item)
+                Name = item.ToDisplayName()
             }).ToList();
         }
     }

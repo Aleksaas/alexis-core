@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using NSwag;
+using NSwag.SwaggerGeneration.Processors.Security;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -18,8 +22,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection RegisterServices(
-            this IServiceCollection services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<DatabaseContext>();
             services.AddScoped<DatabaseInitializer>();
@@ -60,6 +63,29 @@ namespace AlexisCorePro.Infrastructure.Extensions
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection RegisterSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerDocument(settings =>
+            {
+                settings.SerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()               
+                };
+                settings.Title = "Alexis Core Pro";
+                settings.OperationProcessors.Add(new OperationSecurityScopeProcessor("Authorization"));
+                settings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
+                    new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        Description = $"Copy 'Bearer ' + valid JWT token into field",
+                        In = SwaggerSecurityApiKeyLocation.Header,
+                    }));
+            });
 
             return services;
         }

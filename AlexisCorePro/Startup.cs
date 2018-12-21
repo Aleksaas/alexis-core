@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Localization.Resources;
+using Newtonsoft.Json;
 
 namespace AlexisCorePro
 {
@@ -78,22 +79,11 @@ namespace AlexisCorePro
                 .AddDefaultTokenProviders();
 
             services.RegisterServices();
-            services.RegisterJwt();
             services.AddAutoMapper();
             services.AddLocalization();
 
-            services.AddSwaggerDocument(settings =>
-            {
-                settings.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                settings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
-                    new SwaggerSecurityScheme
-                    {
-                        Type = SwaggerSecuritySchemeType.ApiKey,
-                        Name = "Authorization",
-                        Description = $"Copy 'Bearer ' + valid JWT token into field",
-                        In = SwaggerSecurityApiKeyLocation.Header,
-                    }));
-            });
+            services.RegisterJwt();
+            services.RegisterSwagger();
 
             // var serviceProvider = services.BuildServiceProvider(); In case we need to access service here
             // StringLocalizer = serviceProvider.GetService<IStringLocalizer<SharedResource>>();
@@ -102,6 +92,10 @@ namespace AlexisCorePro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUi3(c => c.SwaggerRoutes.Add(new SwaggerUi3Route("Service API V1", "/swagger/v1/swagger.json")));
+
             app.UseCors("AllowAll");
 
             app.UseMvc();

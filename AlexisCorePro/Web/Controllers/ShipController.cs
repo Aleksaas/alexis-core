@@ -33,7 +33,6 @@ namespace AlexisCorePro.Controllers
 
         // GET api/ships/5
         [HttpGet("{id}")]
-        [SwaggerResponse(200, typeof(ShipDetails))]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         [ResourceAuthorize("id", ResourceType.Ship)]
         public async Task<Response<ShipDetails>> Get(int id)
@@ -58,7 +57,6 @@ namespace AlexisCorePro.Controllers
 
         // PUT api/ships/5
         [HttpPut("{id}")]
-        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<Response<ShipDetails>> Put(int id, [FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Update(id, cmd);
@@ -91,7 +89,6 @@ namespace AlexisCorePro.Controllers
         // POST api/ships/search
         [Route("/api/ships/search")]
         [HttpPost]
-        [SwaggerResponse(200, typeof(ShipListItem))]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
@@ -120,7 +117,6 @@ namespace AlexisCorePro.Controllers
         // GET api/customers/1/ships
         [Route("/api/customers/{id}/ships")]
         [HttpGet]
-        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<IEnumerable<ShipDetails>> GetShipsForCustomer(int id)
         {
             return await ctx.Ships

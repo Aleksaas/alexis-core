@@ -47,7 +47,6 @@ namespace AlexisCorePro.Controllers
 
         // POST api/ships
         [HttpPost]
-        [SwaggerResponse(200, typeof(ShipDetails))]
         public async Task<Response<ShipDetails>> Post([FromBody]ShipCommand cmd)
         {
             var ship = await shipService.Create(cmd);
@@ -66,7 +65,6 @@ namespace AlexisCorePro.Controllers
 
         // DELETE api/ships/5
         [HttpDelete("{id}")]
-        [SwaggerResponse(200, typeof(bool))]
         public async Task<Response<bool>> Delete(int id)
         {
             await shipService.Delete(id);
@@ -103,7 +101,6 @@ namespace AlexisCorePro.Controllers
         // GET api/ships/reports/month
         [Route("/api/ships/reports/month")]
         [HttpPost]
-        [SwaggerResponse(200, typeof(ShipMonthReport))]
         public async Task<Response<SearchResponse<ShipMonthReport>>> SearchMonthReport([FromBody]SearchRequest<ShipQuery> request)
         {
             var result = await shipService

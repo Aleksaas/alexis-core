@@ -23,6 +23,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Localization.Resources;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace AlexisCorePro
 {
@@ -33,6 +35,8 @@ namespace AlexisCorePro
             Configuration = configuration;
             HostingEnvironment = env;
         }
+
+        public static ILoggerFactory MyLoggerFactory { get; set; }
 
         public static IConfiguration Configuration { get; set; }
 
@@ -71,8 +75,17 @@ namespace AlexisCorePro
 
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
+            services.AddLogging(builder => builder
+                .AddDebug()
+                .AddFilter(level => level >= LogLevel.Information)
+            );
+
+            MyLoggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
+
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
+                options
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
@@ -90,17 +103,17 @@ namespace AlexisCorePro
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseSwagger();
-
             app.UseSwaggerUi3(c => c.SwaggerRoutes.Add(new SwaggerUi3Route("Service API V1", "/swagger/v1/swagger.json")));
 
             app.UseCors("AllowAll");
 
             app.UseMvc();
+            app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
 
-            await app.MigrateDatabase();
+            app.MigrateDatabase();
 
             // Inject IServiceProvider serviceProvider
             // var service = serviceProvider.GetService<MyService>();

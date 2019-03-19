@@ -11,7 +11,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
 {
     public static class IWebHostExtensions
     {
-        public static async Task<IApplicationBuilder> MigrateDatabase(this IApplicationBuilder webHost)
+        public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder webHost)
         {
             var serviceScopeFactory = (IServiceScopeFactory)webHost.ApplicationServices.GetService(typeof(IServiceScopeFactory));
 
@@ -30,7 +30,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
                     dbContext.Database.EnsureDeleted();
                     dbContext.Database.EnsureCreated();
                     dbInitializer.Initialize();
-                    await dbSeed.Seed(userManager);
+                    dbSeed.Seed(userManager);
                 }
                 else
                 {

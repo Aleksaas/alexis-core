@@ -18,7 +18,7 @@ namespace AlexisCorePro.Domain
             this.ctx = ctx;
         }
 
-        public async Task Seed(UserManager<User> userManager)
+        public void Seed(UserManager<User> userManager)
         {
             var company1 = ctx.Companies.Add(new Company
             {
@@ -45,12 +45,12 @@ namespace AlexisCorePro.Domain
                 Ship = ship1
             });
 
-            IdentityResult result = await userManager.CreateAsync(new User
+            IdentityResult result = userManager.CreateAsync(new User
             {
                 UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
                 Customer = customer1
-            }, "Admin123!");
+            }, "Admin123!").Result;
 
             var adminUser = ctx.Users.First(u => u.Email == "admin@gmail.com");
             var adminRole = ctx.Roles.First(u => u.Name == Roles.Admin);

@@ -1,14 +1,14 @@
 ﻿{
   "runtime": "NetCore22",
   "defaultVariables": null,
-  "swaggerGenerator": {
-    "fromSwagger": {
+  "documentGenerator": {
+    "fromDocument": {
       "url": "http://localhost:47858/swagger/v1/swagger.json",
       "output": null
     }
   },
   "codeGenerators": {
-    "swaggerToTypeScriptClient": {
+    "openApiToTypeScriptClient": {
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
@@ -26,6 +26,7 @@
       "generateOptionalParameters": false,
       "exportTypes": true,
       "wrapDtoExceptions": false,
+      "exceptionClass": "SwaggerException",
       "clientBaseClass": null,
       "wrapResponses": false,
       "wrapResponseMethods": [],
@@ -45,6 +46,7 @@
       "extensionCode": "",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
+      "excludedParameterNames": [],
       "handleReferences": false,
       "generateConstructorInterface": false,
       "convertConstructorInterfaceData": false,
@@ -53,6 +55,7 @@
       "baseUrlTokenName": "API_BASE_URL",
       "queryNullValue": "",
       "inlineNamedDictionaries": false,
+      "inlineNamedAny": false,
       "templateDirectory": ".",
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,

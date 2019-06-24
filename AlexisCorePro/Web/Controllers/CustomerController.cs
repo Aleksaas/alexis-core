@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Common.Model;
+using AlexisCorePro.Business.Common.Model.Search;
 using AlexisCorePro.Business.Customers;
+using AlexisCorePro.Business.Customers.Query;
 using AlexisCorePro.Domain;
 using AutoMapper.QueryableExtensions;
 using DelegateDecompiler.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,16 +17,25 @@ namespace AlexisCorePro.Controllers
     [Route("api/customers")]
     public class CustomerController : BaseController
     {
-        public CustomerController(DatabaseContext ctx) : base(ctx)
-        {
+        private readonly CustomerService customerService;
 
+        public CustomerController(DatabaseContext ctx, CustomerService customerService) : base(ctx)
+        {
+            this.customerService = customerService;
         }
 
-        // GET api/customers
-        [HttpGet]
-        public async Task<IEnumerable<CustomerDetails>> Get()
+        // POST api/customers/search
+        [Route("/api/customers/search")]
+        [HttpPost]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public async Task<Response<SearchResponse<CustomerDetails>>> Search([FromBody]SearchRequest<CustomerQuery> request)
         {
-            return await ctx.Customers.ProjectTo<CustomerDetails>().DecompileAsync().ToListAsync();
+            var result = await customerService
+                .Search(request)
+                .ProjectTo<CustomerDetails>()
+                .ToPaginated(request.PageNumber, request.PageSize);
+
+            return OkResponse(result);
         }
     }
 }

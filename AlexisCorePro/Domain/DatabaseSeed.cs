@@ -31,6 +31,18 @@ namespace AlexisCorePro.Domain
                 Company = company1
             }).Entity;
 
+            ctx.Customers.Add(new Customer
+            {
+                Name = "Customer #112",
+                Company = company1
+            });
+
+            ctx.Customers.Add(new Customer
+            {
+                Name = "Customer #113",
+                Company = company1
+            });
+
             var ship1 = ctx.Ships.Add(new Ship
             {
                 Name = "Ship #111",

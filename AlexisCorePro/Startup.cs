@@ -25,6 +25,10 @@ using Localization.Resources;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphiQl;
 
 namespace AlexisCorePro
 {
@@ -98,6 +102,17 @@ namespace AlexisCorePro
             services.RegisterJwt();
             services.RegisterSwagger();
 
+            services.AddScoped<IDependencyResolver>(x =>
+                new FuncDependencyResolver(x.GetRequiredService));
+
+            services.AddScoped<DatabaseGraphQLSchema>();
+
+            services.AddGraphQL(x =>
+            {
+                x.ExposeExceptions = true; // set true only in development mode. make it switchable.
+            })
+            .AddGraphTypes(ServiceLifetime.Scoped);
+
             // var serviceProvider = services.BuildServiceProvider(); In case we need to access service here
             // StringLocalizer = serviceProvider.GetService<IStringLocalizer<SharedResource>>();
         }
@@ -114,6 +129,10 @@ namespace AlexisCorePro
             app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
 
             app.MigrateDatabase();
+
+            app.UseGraphQL<DatabaseGraphQLSchema>("/graphql");
+            // app.UseGraphQLPlayground(new GraphQLPlaygroundOptions()); //to explorer API navigate https://*DOMAIN*/ui/playground
+            // app.UseGraphiQl("/graphql");
 
             // Inject IServiceProvider serviceProvider
             // var service = serviceProvider.GetService<MyService>();

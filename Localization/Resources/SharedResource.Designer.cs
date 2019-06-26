@@ -70,7 +70,16 @@ namespace Localization.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max number of ships reached..
+        ///   Looks up a localized string similar to Incorrect username or password.
+        /// </summary>
+        public static string InvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("InvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max number of ships reached.
         /// </summary>
         public static string MuxNumberShips {
             get {

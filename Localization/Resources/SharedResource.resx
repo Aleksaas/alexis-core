@@ -120,8 +120,11 @@
   <data name="AisVesselTypeOther" xml:space="preserve">
     <value>Other - label</value>
   </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Incorrect username or password</value>
+  </data>
   <data name="MuxNumberShips" xml:space="preserve">
-    <value>Max number of ships reached.</value>
+    <value>Max number of ships reached</value>
   </data>
   <data name="NameUnique" xml:space="preserve">
     <value>Name must be unique</value>

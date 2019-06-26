@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Auth.Command;
 using AlexisCorePro.Business.Users;
 using AlexisCorePro.Controllers;
 using AlexisCorePro.Domain;
@@ -16,31 +17,29 @@ namespace AlexisCorePro.Web.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly LoginCommandValidator loginCmdValidator;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            DatabaseContext ctx
+            DatabaseContext ctx,
+            LoginCommandValidator loginCmdValidator
             ) : base(ctx)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.loginCmdValidator = loginCmdValidator;
         }
 
         [Route("/api/account/login")]
         [HttpPost]
-        public async Task<object> Login([FromBody] LoginDto model)
+        public object Login([FromBody] LoginCommand cmd)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            cmd.Validate<LoginCommand, LoginCommandValidator>(loginCmdValidator);
 
-            if (result.Succeeded)
-            {
-                var appUser = ctx.Users.IncludeAll().SingleOrDefault(r => r.Email == model.Email);
+            var appUser = ctx.Users.IncludeAll().First(r => r.Email == cmd.Email);
 
-                return SecurityHelper.GenerateJwtToken(model.Email, appUser);
-            }
-
-            throw new Exception("INVALID_LOGIN_ATTEMPT");
+            return OkResponse(SecurityHelper.GenerateJwtToken(cmd.Email, appUser));
         }
 
         [Route("/api/account/register")]
@@ -61,20 +60,10 @@ namespace AlexisCorePro.Web.Controllers
 
                 var createdUser = ctx.Users.IncludeAll().SingleOrDefault(r => r.Email == model.Email);
 
-                return SecurityHelper.GenerateJwtToken(model.Email, createdUser);
+                return OkResponse(SecurityHelper.GenerateJwtToken(model.Email, createdUser));
             }
 
             throw new Exception("UNKNOWN_ERROR");
-        }
-
-        public class LoginDto
-        {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            public string Password { get; set; }
-
         }
 
         public class RegisterDto

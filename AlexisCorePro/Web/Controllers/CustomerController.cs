@@ -27,7 +27,7 @@ namespace AlexisCorePro.Controllers
         // POST api/customers/search
         [Route("/api/customers/search")]
         [HttpPost]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<CustomerDetails>>> Search([FromBody]SearchRequest<CustomerQuery> request)
         {
             var result = await customerService

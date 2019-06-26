@@ -1,4 +1,5 @@
 ﻿using AlexisCorePro.Business.Auth;
+using AlexisCorePro.Business.Auth.Command;
 using AlexisCorePro.Business.Common;
 using AlexisCorePro.Business.Customers;
 using AlexisCorePro.Business.Customers.Validations;
@@ -36,6 +37,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
             services.AddScoped<ShipValidations>();
             services.AddScoped<CustomerValidations>();
             services.AddScoped<CustomerService>();
+            services.AddScoped<LoginCommandValidator>();
 
             return services;
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AlexisCorePro.Business.Auth.Command;
 using AlexisCorePro.Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -59,7 +60,7 @@ namespace IntegrationTests
 
         public static string GetToken()
         {
-            HttpResponseMessage httpResponse = httpClient.PostAsJsonAsync("api/account/login", new LoginDto
+            HttpResponseMessage httpResponse = httpClient.PostAsJsonAsync("api/account/login", new LoginCommand
             {
                 Email = "admin@gmail.com",
                 Password = "Admin123!"

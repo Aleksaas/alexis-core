@@ -89,7 +89,7 @@ namespace AlexisCorePro
             services.AddDbContext<DatabaseContext>(options =>
                 options
                 .UseLoggerFactory(MyLoggerFactory)
-                .UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
+                .UseNpgsql(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()

@@ -13,22 +13,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema;
-using NSwag;
 using NSwag.AspNetCore;
-using NSwag.SwaggerGeneration.Processors.Security;
-using System.Reflection;
-using System.Globalization;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Localization;
 using Localization.Resources;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using GraphQL;
 using GraphQL.Server;
-using GraphQL.Server.Ui.Playground;
-using GraphiQl;
 
 namespace AlexisCorePro
 {
@@ -89,7 +78,7 @@ namespace AlexisCorePro
             services.AddDbContext<DatabaseContext>(options =>
                 options
                 .UseLoggerFactory(MyLoggerFactory)
-                .UseNpgsql(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
+                .UseSqlServer(Configuration.GetConnectionString("AlexisPro"), optionsAction => optionsAction.EnableRetryOnFailure()));
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
@@ -120,7 +109,7 @@ namespace AlexisCorePro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseSwagger();
+            app.UseOpenApi();
             app.UseSwaggerUi3(c => c.SwaggerRoutes.Add(new SwaggerUi3Route("Service API V1", "/swagger/v1/swagger.json")));
 
             app.UseCors("AllowAll");

@@ -14,8 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NSwag;
-using NSwag.SwaggerGeneration.Processors.Security;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -80,15 +78,6 @@ namespace AlexisCorePro.Infrastructure.Extensions
                     ContractResolver = new CamelCasePropertyNamesContractResolver()               
                 };
                 settings.Title = "Alexis Core Pro";
-                settings.OperationProcessors.Add(new OperationSecurityScopeProcessor("Authorization"));
-                settings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
-                    new SwaggerSecurityScheme
-                    {
-                        Type = SwaggerSecuritySchemeType.ApiKey,
-                        Name = "Authorization",
-                        Description = $"Copy 'Bearer ' + valid JWT token into field",
-                        In = SwaggerSecurityApiKeyLocation.Header,
-                    }));
             });
 
             return services;

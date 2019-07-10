@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AlexisCorePro.Business.Auth.Command;
+using AlexisCorePro.Business.Common.Model;
 using AlexisCorePro.Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -68,15 +69,15 @@ namespace IntegrationTests
 
             if (Token == null)
             {
-                Token = GetStringContent(httpResponse);
+                Token = GetResponseContent<Response<string>>(httpResponse).Data;
             }
 
             return Token;
         }
 
-        public static async Task<T> GetResponseContent<T>(HttpResponseMessage response)
+        public static T GetResponseContent<T>(HttpResponseMessage response)
         {
-            string responseString = await response.Content.ReadAsStringAsync();
+            string responseString = response.Content.ReadAsStringAsync().Result;
 
             return JsonConvert.DeserializeObject<T>(responseString);
         }

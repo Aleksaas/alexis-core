@@ -50,7 +50,7 @@ namespace IntegrationTests
                 Mmsi = 99
             });
 
-            var response = await TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
+            var response = TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
 
             Assert.AreEqual("Ship2", response.Data.Name);
         }
@@ -60,7 +60,7 @@ namespace IntegrationTests
         {
             HttpResponseMessage httpResponse = await _client.GetAsync("api/ships/1");
 
-            var response = await TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
+            var response = TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
 
             Assert.AreEqual(1, response.Data.Id);
         }
@@ -70,7 +70,7 @@ namespace IntegrationTests
         {
             HttpResponseMessage httpResponse = await _client.GetAsync("api/ships/999999");
 
-            var response = await TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
+            var response = TestHelper.GetResponseContent<Response<ShipDetails>>(httpResponse);
 
             Assert.AreNotSame(0, response.Errors.Count);
         }
@@ -86,7 +86,7 @@ namespace IntegrationTests
                 }
             });
 
-            var response = await TestHelper.GetResponseContent<Response<SearchResponse<ShipListItem>>>(httpResponse);
+            var response = TestHelper.GetResponseContent<Response<SearchResponse<ShipListItem>>>(httpResponse);
 
             Assert.AreNotSame(0, response.Data.EntriesCount);
         }

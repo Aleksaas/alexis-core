@@ -123,6 +123,9 @@
   <data name="InvalidLoginAttempt" xml:space="preserve">
     <value>Incorrect username or password</value>
   </data>
+  <data name="InvalidRegisterAttempt" xml:space="preserve">
+    <value>Registration failed</value>
+  </data>
   <data name="MuxNumberShips" xml:space="preserve">
     <value>Max number of ships reached</value>
   </data>

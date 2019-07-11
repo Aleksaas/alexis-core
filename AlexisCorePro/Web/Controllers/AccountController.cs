@@ -1,80 +1,53 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AlexisCorePro.Business.Auth.Command;
 using AlexisCorePro.Business.Users;
 using AlexisCorePro.Controllers;
 using AlexisCorePro.Domain;
-using AlexisCorePro.Domain.Model;
 using AlexisCorePro.Infrastructure.Extensions;
 using AlexisCorePro.Infrastructure.Helpers;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexisCorePro.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly LoginCommandValidator loginCmdValidator;
+        private readonly LoginCommandValidator _loginCmdValidator;
+        private readonly RegisterCommandValidator _registerCmdValidator;
 
         public AccountController(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
             DatabaseContext ctx,
-            LoginCommandValidator loginCmdValidator
+            LoginCommandValidator loginCmdValidator,
+            RegisterCommandValidator registerCmdValidator
             ) : base(ctx)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            this.loginCmdValidator = loginCmdValidator;
+            _loginCmdValidator = loginCmdValidator;
+            _registerCmdValidator = registerCmdValidator;
         }
 
         [Route("/api/account/login")]
         [HttpPost]
         public object Login([FromBody] LoginCommand cmd)
         {
-            loginCmdValidator.ValidateCmd(cmd);
+            _loginCmdValidator.ValidateCmd(cmd);
 
-            var appUser = ctx.Users.IncludeAll().First(r => r.Email == cmd.Email);
+            var appUser = ctx.Users
+                .IncludeRoles()
+                .First(r => r.Email == cmd.Email);
 
             return OkResponse(SecurityHelper.GenerateJwtToken(cmd.Email, appUser));
         }
 
         [Route("/api/account/register")]
         [HttpPost]
-        public async Task<object> Register([FromBody] RegisterDto model)
+        public object Register([FromBody] RegisterCommand cmd)
         {
-            var user = new User
-            {
-                UserName = model.Email,
-                Email = model.Email
-            };
+            _registerCmdValidator.ValidateCmd(cmd);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var createdUser = ctx.Users
+                .IncludeRoles()
+                .First(r => r.Email == cmd.Email);
 
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-
-                var createdUser = ctx.Users.IncludeAll().SingleOrDefault(r => r.Email == model.Email);
-
-                return OkResponse(SecurityHelper.GenerateJwtToken(model.Email, createdUser));
-            }
-
-            throw new Exception("UNKNOWN_ERROR");
-        }
-
-        public class RegisterDto
-        {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
-            public string Password { get; set; }
+            return OkResponse(SecurityHelper.GenerateJwtToken(cmd.Email, createdUser));
         }
     }
 }

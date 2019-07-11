@@ -10,5 +10,10 @@ namespace AlexisCorePro.Business.Users
         {
             return query.Include("UserRoles.Role");
         }
+
+        public static IQueryable<User> IncludeRoles(this IQueryable<User> query)
+        {
+            return query.Include("UserRoles.Role");
+        }
     }
 }

@@ -79,6 +79,15 @@ namespace Localization.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration failed.
+        /// </summary>
+        public static string InvalidRegisterAttempt {
+            get {
+                return ResourceManager.GetString("InvalidRegisterAttempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max number of ships reached.
         /// </summary>
         public static string MuxNumberShips {

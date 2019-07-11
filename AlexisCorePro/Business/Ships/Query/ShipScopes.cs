@@ -2,6 +2,7 @@
 using AlexisCorePro.Business.Customers;
 using AlexisCorePro.Domain.Enums;
 using AlexisCorePro.Infrastructure.Extensions;
+using System;
 
 namespace AlexisCorePro.Business.Ships
 {
@@ -17,25 +18,25 @@ namespace AlexisCorePro.Business.Ships
 
         public AisVesselType AisVesselType { get; set; }
 
+        public DateTime Date { get; set; }
+
         public byte[] RowVersion { get; set; }
+
+        public int CustomerId { get; set; }
 
         public string AisVesselTypeLabel => AisVesselType.ToDisplayName();
     }
 
     public class ShipDetails : ShipBasic
     {
-        public CustomerBasic Customer { get; set; }
-
-        public CompanyBasic Company { get; set; }
+        public CustomerDetails Customer { get; set; }
 
         public int CriticalEquipmentsNum { get; set; }
     }
 
     public class ShipListItem : ShipBasic
     {
-        public CustomerBasic Customer { get; set; }
-
-        public CompanyBasic Company { get; set; }
+        public CustomerDetails Customer { get; set; }
 
         public int CriticalEquipmentsNum { get; set; }
     }

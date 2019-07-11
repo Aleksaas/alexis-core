@@ -2,6 +2,7 @@
 using AlexisCorePro.Business.Ships.Commands;
 using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
+using AlexisCorePro.Infrastructure.Extensions;
 using AlexisCorePro.Infrastructure.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace AlexisCorePro.Business.Ships
         /// <returns></returns>
         public async Task<Ship> Create(ShipCommand cmd)
         {
-            cmd.Validate<ShipCommand, ShipCommandValidator>(shipCmdValidator);
+            shipCmdValidator.ValidateCmd(cmd);
 
             var record = ctx.Ships.Add(new Ship
             {
@@ -69,7 +70,7 @@ namespace AlexisCorePro.Business.Ships
         {
             cmd.Id = id;
 
-            cmd.Validate<ShipCommand, ShipCommandValidator>(shipCmdValidator);
+            shipCmdValidator.ValidateCmd(cmd);
 
             var ship = await ctx.Ships.FindAsync(id);
 

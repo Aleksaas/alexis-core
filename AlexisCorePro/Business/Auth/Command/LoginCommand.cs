@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AlexisCorePro.Business.Auth.Command
 {
-    public class LoginCommand : BaseCommand
+    public class LoginCommand : IBaseCommand
     {
         public string Email { get; set; }
 

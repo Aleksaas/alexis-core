@@ -7,6 +7,7 @@ using AlexisCorePro.Business.Users;
 using AlexisCorePro.Controllers;
 using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
+using AlexisCorePro.Infrastructure.Extensions;
 using AlexisCorePro.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace AlexisCorePro.Web.Controllers
         [HttpPost]
         public object Login([FromBody] LoginCommand cmd)
         {
-            cmd.Validate<LoginCommand, LoginCommandValidator>(loginCmdValidator);
+            loginCmdValidator.ValidateCmd(cmd);
 
             var appUser = ctx.Users.IncludeAll().First(r => r.Email == cmd.Email);
 

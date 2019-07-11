@@ -10,19 +10,9 @@ using System.Linq;
 
 namespace AlexisCorePro.Business.Ships.Commands
 {
-    public class ShipCommand : BaseCommand
+    public class ShipCommand : ShipBasic, IBaseCommand
     {
-        public int Id { get; set; }
 
-        public string Name { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public int Imd { get; set; }
-
-        public int Mmsi { get; set; }
-
-        public int CustomerId { get; set; }
     }
 
     public class ShipCommandValidator : AbstractValidator<ShipCommand>

@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NSwag.Annotations;
 
 namespace AlexisCorePro.Controllers
 {
@@ -90,8 +89,8 @@ namespace AlexisCorePro.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<ShipListItem>>> Search([FromBody]SearchRequest<ShipQuery> request)
         {
-            var result = await shipService
-                .Search(request)
+            var result = await ctx.Ships
+                .Search(request.Query)
                 .ProjectTo<ShipListItem>()
                 .ToPaginated(request.PageNumber, request.PageSize);
 
@@ -103,8 +102,8 @@ namespace AlexisCorePro.Controllers
         [HttpPost]
         public async Task<Response<SearchResponse<ShipMonthReport>>> SearchMonthReport([FromBody]SearchRequest<ShipQuery> request)
         {
-            var result = await shipService
-                .Search(request)
+            var result = await ctx.Ships
+                .Search(request.Query)
                 .ToShipMonthReport(request.Query.MonthReportDate)
                 .ToPaginated(request.PageNumber, request.PageSize);
 

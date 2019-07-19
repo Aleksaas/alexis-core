@@ -10,13 +10,13 @@ namespace AlexisCorePro.Business.Customers
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        // public List<ShipDetails> Ships { get; set; } Example of how circular reference is handled automatically
     }
 
     public class CustomerDetails : CustomerBasic
     {
         public CompanyBasic Company { get; set; }
+
+        public List<ShipDetails> Ships { get; set; } // Example of how circular reference is handled automatically
 
         public int ShipNumber { get; set; }
     }

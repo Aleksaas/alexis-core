@@ -27,8 +27,8 @@ namespace AlexisCorePro.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public async Task<Response<SearchResponse<CustomerDetails>>> Search([FromBody]SearchRequest<CustomerQuery> request)
         {
-            var result = await customerService
-                .Search(request)
+            var result = await ctx.Customers
+                .Search(request.Query)
                 .ProjectTo<CustomerDetails>()
                 .ToPaginated(request.PageNumber, request.PageSize);
 

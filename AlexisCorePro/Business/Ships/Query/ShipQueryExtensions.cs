@@ -1,5 +1,7 @@
-﻿using AlexisCorePro.Domain;
+﻿using AlexisCorePro.Business.Ships.Commands;
+using AlexisCorePro.Domain;
 using AlexisCorePro.Domain.Model;
+using AlexisCorePro.Infrastructure.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,24 @@ namespace AlexisCorePro.Business.Ships
     /// </summary>
     public static class ShipQueryExtensions
     {
+        public static IQueryable<Ship> Search(this IQueryable<Ship> query, ShipQuery searchRequest)
+        {
+            var locale = CultureHelper.GetCulture(searchRequest.Locale);
+
+            if (!string.IsNullOrEmpty(searchRequest.Name))
+            {
+                query = locale == CultureTwoLetterISONames.English ?
+                    query.Where(e => e.Name == searchRequest.Name) :
+                    query.Where(e => e.Name == searchRequest.Name);
+            }
+
+            query = searchRequest.Id != null ? query.Where(e => e.Id == searchRequest.Id) : query;
+            query = searchRequest.Imd != null ? query.Where(e => e.Imd == searchRequest.Imd) : query;
+            query = searchRequest.Mmsi != null ? query.Where(e => e.Mmsi == searchRequest.Mmsi) : query;
+
+            return query;
+        }
+
         public static IQueryable<ShipMonthReport> ToShipMonthReport(this IQueryable<Ship> query, DateTime date)
         {
             return query.Select(s => new ShipMonthReport

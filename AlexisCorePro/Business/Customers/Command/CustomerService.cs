@@ -20,7 +20,7 @@ namespace AlexisCorePro.Business.Customers
             var customerQuery = query as CustomerQuery;
 
             model = customerQuery.Id != null ? model.Where(e => e.Id == customerQuery.Id) : model;
-            model = customerQuery.Name != null ? model.Where(e => e.Name == customerQuery.Name) : model;
+            model = customerQuery.Name != null ? model.Where(e => e.Name.StartsWith(customerQuery.Name)) : model;
 
             return model;
         }

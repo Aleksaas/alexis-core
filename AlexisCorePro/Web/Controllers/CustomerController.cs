@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AlexisCorePro.Business.Common.Model;
 using AlexisCorePro.Business.Common.Model.Search;
 using AlexisCorePro.Business.Customers;
 using AlexisCorePro.Business.Customers.Query;
 using AlexisCorePro.Domain;
 using AutoMapper.QueryableExtensions;
-using DelegateDecompiler.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlexisCorePro.Controllers
 {

@@ -36,6 +36,7 @@ namespace AlexisCorePro.Infrastructure.Extensions
             services.AddScoped<CustomerValidations>();
             services.AddScoped<CustomerService>();
             services.AddScoped<LoginCommandValidator>();
+            services.AddScoped<RegisterCommandValidator>();
 
             return services;
         }

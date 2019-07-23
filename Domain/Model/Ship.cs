@@ -1,6 +1,4 @@
-﻿using AlexisCorePro.Business.Ships.Commands;
-using AlexisCorePro.Domain.Enums;
-using AlexisCorePro.Infrastructure.Helpers;
+﻿using AlexisCorePro.Domain.Enums;
 using DelegateDecompiler;
 using System;
 using System.Collections.Generic;

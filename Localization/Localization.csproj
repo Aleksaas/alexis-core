@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Innofactor.EfCoreJsonValueConverter" Version="1.29.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\SharedResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
